@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; nao project v0.0.1</title>
+  <title>How-to: change the docs &mdash; nao project v0.0.1</title>
   
 
   
@@ -27,8 +26,10 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Manually controlling the robot" href="control.html" />
+    <link rel="prev" title="Welcome to nao project’s documentation!" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,8 +82,13 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="changedocs.html">How-to: change the docs</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How-to: change the docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compile-the-docs">Compile the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edit-the-docs">Edit the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autodoc">autodoc</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="control.html">Manually controlling the robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testpage.html">testing sphinx syntax</a></li>
@@ -131,12 +137,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index</li>
+      <li>How-to: change the docs</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/changedocs.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -148,36 +156,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
- 
+  <div class="section" id="how-to-change-the-docs">
+<h1>How-to: change the docs<a class="headerlink" href="#how-to-change-the-docs" title="Permalink to this headline">¶</a></h1>
+<p>Docs are created using python sphinx. <a class="reference external" href="https://github.com/Teszko/nao_project/tree/master/docs/">Source</a></p>
+<div class="section" id="compile-the-docs">
+<h2>Compile the docs<a class="headerlink" href="#compile-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>First make sure you have all the necessary dependencies installed.
+From the project source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
 </div>
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#controlled_robot.Pad">Pad (class in controlled_robot)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#controlled_robot.Robot">Robot (class in controlled_robot)</a>
-</li>
-  </ul></td>
-</tr></table>
-
+<p>Change into the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory. To do a full rebuild run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
+<span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>The compiled docs should now be in <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code></p>
+</div>
+<div class="section" id="edit-the-docs">
+<h2>Edit the docs<a class="headerlink" href="#edit-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>Edit the source files in <code class="docutils literal notranslate"><span class="pre">docs/source/</span></code>. <em>index.rst</em> is the main page. If you create new pages make sure to add them to the <em>toctree</em> in <em>index.rst</em></p>
+<p>For information about the syntax reference <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html/">reStructuredText Markup Specification</a></p>
+</div>
+<div class="section" id="autodoc">
+<h2>autodoc<a class="headerlink" href="#autodoc" title="Permalink to this headline">¶</a></h2>
+<p><em>autodoc</em> can be used to automatically generate the api reference. View api.rst and the autodoc <a class="reference external" href="http://www.sphinx-doc.org/en/stable/ext/autodoc.html/">docs</a> for more information.</p>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="control.html" class="btn btn-neutral float-right" title="Manually controlling the robot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to nao project’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -17,4 +17,4 @@ Human control is realised by using a video game controller compatible with your 
 | right analog stick  | turn left/right |
 +---------------------+-----------------+
 
-If everything works well, the script will start printing controller input values in controller mode.
+If everything works well, the script will start printing controller input values in controlled mode.
