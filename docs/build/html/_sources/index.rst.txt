@@ -11,8 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-.. autoclass:: controlled_robot.Pad
-.. autoclass:: controlled_robot.Robot
+   control
+   classes
 
 
 Indices and tables
