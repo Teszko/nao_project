@@ -1,4 +1,3 @@
-import command
 import threading
 
 
@@ -14,10 +13,8 @@ class CommandQueue:
                 return
 
         if len(self.queue):
-            elem = self.queue.pop(0)
-            self.current = threading.Thread(target=elem.run, args=(self.agent,))
+            func = self.queue.pop(0)
+            self.current = threading.Thread(target=func, args=(self.agent,))
 
     def add_element(self, func):
-        el = command.Command(self.agent)
-        el.run = func
-        self.queue.append(el)
+        self.queue.append(func)

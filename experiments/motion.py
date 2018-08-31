@@ -1,12 +1,10 @@
-from __future__ import print_function
-import pygame
 import motion
 from naoqi import ALProxy
 import sys
 import time
 
+
 class Robot:
-    """key agent components."""
     def __init__(self):
         self.ip = "nao6.local"
         self.port = 9559
@@ -17,8 +15,8 @@ class Robot:
         try:
             self.motion = ALProxy("ALMotion", self.ip, self.port)
         except Exception, e:
-            print("Could not create proxy to ALMotion")
-            print("Error was: ", e)
+            print "Could not create proxy to ALMotion"
+            print "Error was: ", e
             sys.exit(1)
 
     def wake(self):
@@ -30,45 +28,37 @@ class Robot:
     def rest(self):
         self.motion.rest()
 
-    def move(self, x, y, theta):
-        self.motion.move(x, y, theta)
+    def move(self):
+        pass
+        #moveToward(x, y, theta, frequency)
 
 
 class Pad(object):
-    """initializing and handling controller inputs."""
-    def __init__(self, robot):
+    def __init__(self):
         pygame.init()
         pygame.joystick.init()
 
-        self.robot = robot
-
         self.joystick_count = pygame.joystick.get_count()
-        print(self.joystick_count)
+        self.joystick = None
 
         self.stickL0 = 0
         self.stickL1 = 0
         self.stickR0 = 0
         self.stickR1 = 0
 
-        self.toggleStart = 0
-
-        for i in range(self.joystick_count):
-            self.joystick = pygame.joystick.Joystick(i)
-            self.joystick.init()
+        self.init_joystick()
 
         print("Number of joysticks: {}".format(self.joystick_count))
 
     def start_pressed(self):
         print("start pressed")
-        self.toggleStart = 1 - self.toggleStart
 
-        if self.toggleStart:
-            robot.wake()
-            robot.initPose()
-        else:
-            robot.rest()
+    def init_joystick(self):
+        for i in range(self.joystick_count):
+            self.joystick = pygame.joystick.Joystick(i)
+            self.joystick.init()
 
-    def get_axis(self, a):
+    def getAxis(self, a):
         value = self.joystick.get_axis(a)
         if (value < 0.15) and (value > -0.15):
             value = 0
@@ -85,20 +75,19 @@ class Pad(object):
                 if self.joystick.get_button(7):
                     self.start_pressed()
 
-        self.stickL0 = self.get_axis(0)
-        self.stickL1 = self.get_axis(1)
-        self.stickR0 = self.get_axis(2)
-        self.stickR1 = self.get_axis(3)
+        self.stickL0 = self.getAxis(0)
+        self.stickL1 = self.getAxis(1)
+        self.stickR0 = self.getAxis(2)
+        self.stickR1 = self.getAxis(3)
 
     def jprint(self):
         print("L0:", "{:>6.3f}".format(self.stickL0), " L1:", "{:>6.3f}".format(self.stickL1), "R0:", "{:>6.3f}".format(self.stickR0))
 
+
+
 if __name__ == "__main__":
     robot = Robot()
-    pad = Pad(robot)
-
-    while True:
-        pad.poll()
-        pad.jprint()
-        robot.move(pad.stickL1, pad.stickL0, pad.stickR0)
-        time.sleep(0.1)
+    robot.wake()
+    robot.initPose()
+    time.sleep(20)
+    robot.rest()

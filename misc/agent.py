@@ -6,6 +6,8 @@ from commandqueue import CommandQueue
 
 class Sense:
     def __init__(self, agent):
+        self.posestate = "rest"  # "rest" or "ready"
+        self.controlstate = "controlled"  # "controlled" or "indep"
         self.agent = agent
 
     def tick(self):
