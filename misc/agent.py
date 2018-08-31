@@ -2,6 +2,7 @@ import time
 import robot
 import gamepad
 from commandqueue import CommandQueue
+from speechqueue import SpeechQueue
 
 
 class Sense:
@@ -12,6 +13,7 @@ class Sense:
 
     def tick(self):
         self.agent.pad.poll()
+        # speechrec
 
 
 class Think:
@@ -19,7 +21,11 @@ class Think:
         self.agent = agent
 
     def tick(self):
-        pass
+        speech = self.agent.speechQueue.pop_element()
+        if speech:
+            pass
+            # process text
+
 
 
 class Act:
@@ -27,7 +33,7 @@ class Act:
         self.agent = agent
 
     def tick(self):
-        self.agent.queue.tick()
+        self.agent.commandQueue.tick()
         time.sleep(0.1)
 
 
@@ -38,7 +44,8 @@ class Agent:
         self.act = Act(self)
         self.robot = robot.Robot()
         self.pad = gamepad.Pad(self)
-        self.queue = CommandQueue(self)
+        self.commandQueue = CommandQueue(self)
+        self.speechQueue = SpeechQueue()
 
     def sense_think_act(self):
         self.sense.tick()
