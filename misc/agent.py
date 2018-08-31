@@ -3,6 +3,7 @@ import robot
 import gamepad
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
+import commands
 
 
 class Sense:
@@ -10,21 +11,32 @@ class Sense:
         self.posestate = "rest"  # "rest" or "ready"
         self.controlstate = "controlled"  # "controlled" or "indep"
         self.agent = agent
+        self.image = None
 
     def tick(self):
         self.agent.pad.poll()
-        # speechrec
+        # poll speech rec and add text to speechqueue if command given
 
 
 class Think:
     def __init__(self, agent):
+        self.opmode = "searching"  # "searching" or "moving"
+        self.scan_state = "done" # "done" or "progress"
         self.agent = agent
+        self.head_yaw_step = 0.4
 
     def tick(self):
         speech = self.agent.speechQueue.pop_element()
         if speech:
             pass
             # process text
+
+        if self.opmode == "searching" and self.op_state == "done":
+            self.agent.commandQueue.add_element(commands.scan_view_step)
+            # add commend to queue to move head and get new image
+
+        # analyze image here if sense.image not None
+        # set sense.image = None if you are done.
 
 
 
