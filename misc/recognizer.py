@@ -1,5 +1,7 @@
 import speech_recognition as sr
 import snowboydecoder
+import os
+from os import path
 
 class Recognizer():
     """ Recognizer for phrases and keywords
@@ -13,21 +15,25 @@ class Recognizer():
     You may overwrite methods like on_hotword, on_phrase and on_keyword by subclassing Recognizer or monkey patching them.
     """
 
-    DEFAULT_MODEL = './jarvis.umdl'
+    DEFAULT_MODEL = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'jarvis.umdl'))
     DEFAULT_KEYWORDS = ['red', 'green', 'blue']
+    DEFAULT_ADJUSTING_DURATION = 5
+    RESOURCE_FILE = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'common.res'))
 
-    def __init__(self, model_file = DEFAULT_MODEL, keywords = DEFAULT_KEYWORDS):
+    def __init__(self, model_file = DEFAULT_MODEL, keywords = DEFAULT_KEYWORDS, terminate = True):
         """ Creates a new Recognizer object
 
         Args:
             model_file: Path to a .umdl file used for hotword detection
             keywords: List of keywords for focussing the recognition
+            terminate: True if recognizer should terminate once a hotword was detected
 
         Returns:
             New Recognizer object
         """
 
         self.set_keywords(keywords)
+        self.set_terminate(terminate)
 
         self.load_recognizer()
         self.load_hotword_model(model_file)
@@ -53,6 +59,25 @@ class Recognizer():
 
         return self.__keywords
 
+    def set_terminate(self, terminate):
+        """ Sets the termination setting
+
+        Args:
+            terminate: True if termination is enabled
+        Returns:
+            None
+        """
+
+        self.__terminate = terminate
+
+    def get_terminate(self):
+        """ Returns termination setting
+        Returns:
+            True of termination is enabled
+        """
+
+        return self.__terminate
+
     def load_recognizer(self, adjust_microphone = True):
         """ Loads the recognizer
         Args:
@@ -65,10 +90,10 @@ class Recognizer():
         self.__recognizer = sr.Recognizer()
 
         if adjust_microphone:
-            print ('Adjusting microphone...')
+            print ('Adjusting microphone for ' + str(Recognizer.DEFAULT_ADJUSTING_DURATION) + ' seconds...')
 
             with sr.Microphone() as source:
-                self.__recognizer.adjust_for_ambient_noise(source, duration = 5)
+                self.__recognizer.adjust_for_ambient_noise(source, duration = Recognizer.DEFAULT_ADJUSTING_DURATION)
 
     def load_hotword_model(self, model_file):
         """ Loads a new hotword model file into the detector
@@ -80,7 +105,7 @@ class Recognizer():
             None
         """
 
-        self.__detector = snowboydecoder.HotwordDetector(model_file)
+        self.__detector = snowboydecoder.HotwordDetector(model_file, Recognizer.RESOURCE_FILE)
 
     def on_hotword(self):
         """ Callback which gets called whenever the hotword was detected
@@ -121,6 +146,7 @@ class Recognizer():
         for keyword in self.get_keywords():
             if keyword in phrase:
                 detected = True
+                self.__keyword_history.append(keyword)
                 self.on_keyword(keyword)
 
         if not detected:
@@ -138,7 +164,21 @@ class Recognizer():
 
         print("Keyword \"" + keyword + "\" detected!")
 
+    def on_interrupt_check(self):
+        """ Returns True if termination is enabled and detection should be interrupted
+
+        Returns:
+            True if termination is enabled and detection should be interrupted
+        """
+        return self.get_terminate() and len(self.__keyword_history) > 0
+
     def run(self):
         print("Listening for hotword...")
 
-        self.__detector.start(self.on_hotword)
+        self.__keyword_history = []
+
+        self.__detector.start(self.on_hotword, self.on_interrupt_check)
+
+if __name__ == '__main__':
+    recognizer = Recognizer()
+    recognizer.run()
