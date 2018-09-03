@@ -35,8 +35,9 @@ class Think:
         elif self.opmode == "waiting":
             speech = self.agent.speechQueue.pop_element()
             if speech:
-                pass
-                # handle command
+                self.sense.target = speech
+                self.opmode = "searching"
+                self.agent.robot.say("set opmode to searching")
         elif self.opmode == "searching":
             if self.agent.sense.posestate == "rest":
                 self.agent.commandQueue.add_element(commands.pose_ready)
@@ -78,7 +79,7 @@ class Agent:
         self.think = Think(self)
         self.act = Act(self)
         self.robot = robot.Robot()
-        self.pad = gamepad.Pad(self)
+        # self.pad = gamepad.Pad(self)
         self.commandQueue = CommandQueue(self)
         self.speechQueue = SpeechQueue()
 
