@@ -1,8 +1,14 @@
-def detect_blob(img, color, agent):
+import numpy as np
+import cv2
+
+def detect_blob(agent):
     center = -1
+    image = agent.Sense.image
+    color = agent.Sense.target
+
     if color == "red":
         center = detect_red_blob(image)
-    elif color == "green":
+    elif color == "yellow":
         center = detect_green_blob(image)
     elif color == "blue":
         center = detect_blue_blob(image)
@@ -26,7 +32,7 @@ def detect_red_blob(image):
     #cv2.imshow("Mask1", mask1)
 
     mask = mask0 + mask1
-    cv2.imshow("Mask1", mask1)
+    #cv2.imshow("Mask1", mask1)
 
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -60,14 +66,14 @@ def detect_red_blob(image):
 
     text = "Total number of dots are: {}".format(len(totalDots))
     cv2.putText(mask, text, (50, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 255, 255), 2)
-    cv2.imshow("Mask", mask)
-    cv2.waitKey(10000)
-    cv2.destroyAllWindows()
+    #cv2.imshow("Mask", mask)
+    #cv2.waitKey(10000)
+    #cv2.destroyAllWindows()
     print("Total number of dots are:{}".format(len(totalDots)))
 
     return center
 
-def detect_green_blob(image):
+def detect_yellow_blob(image):
     center = -1
 
     return center
@@ -91,6 +97,6 @@ def get_distance(center, agent):
     anglesYaw = anglesYaw + y_offset * (47.64 / 480)  # 47.64 degrees in x direction
 
     # distance = camera_height/ tan (90-head_angle)
-    distance = 10
+    distance = 1
 
     return distance, anglesYaw
