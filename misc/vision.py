@@ -91,6 +91,6 @@ def get_distance(center, agent):
     anglesYaw = anglesYaw + y_offset * (47.64 / 480)  # 47.64 degrees in x direction
 
     # distance = camera_height/ tan (90-head_angle)
-    distance = camera_height / np.tan(90 + anglesPitch)  # TODO get tan correctly
+    distance = 10
 
     return distance, anglesYaw
