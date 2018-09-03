@@ -15,6 +15,7 @@ class Robot:
         self.fractionMaxSpeed = 0.8
         self.motion = None
         self.vision = None
+        self.tts = None
 
     def initProxy(self):
         try:
@@ -28,6 +29,13 @@ class Robot:
             self.vision = ALProxy('RobocupVision', self.ip, self.port)
         except Exception, e:
             print("Could not create proxy to RobocupVision")
+            print("Error was: ", e)
+            sys.exit(1)
+
+        try:
+            self.tts = ALProxy("ALTextToSpeech", self.ip, self.port)
+        except Exception, e:
+            print("Could not create proxy to ALTextToSpeech")
             print("Error was: ", e)
             sys.exit(1)
 
@@ -51,12 +59,16 @@ class Robot:
 
     def say(self, s):
         print(">", s)
+        self.tts.say(s)
 
     def rest(self):
         self.motion.rest()
-
+ŝ
     def move(self, x, y, theta):
         self.motion.move(x, y, theta)
+
+    def go_to(self, distance, angle):
+        self.motion.moveTo(distance, 0, angle)
 
     def set_head_angles(self, angles):
         names = ["HeadYaw", "HeadPitch"]

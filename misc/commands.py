@@ -34,3 +34,8 @@ def pose_rest(agent):
     agent.robot.rest()
     time.sleep(5)
     # robot say ready
+
+
+def go_to(distance, angle):
+    return lambda agent: agent.robot.go_to(distance, angle)
+

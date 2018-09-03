@@ -1,6 +1,6 @@
 import time
 import robot
-import gamepad
+# import gamepad
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
 import commands
@@ -16,7 +16,8 @@ class Sense:
         self.__scan_state = 0
 
     def tick(self):
-        self.agent.pad.poll()
+        pass
+        # self.agent.pad.poll()
         # poll speech rec and add text to speechqueue if command given
 
 
