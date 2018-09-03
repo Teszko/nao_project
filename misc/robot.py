@@ -49,8 +49,8 @@ class Robot:
     def initPose(self):
         self.motion.moveInit()
 
-    def say(self):
-        pass
+    def say(self, s):
+        print(">", s)
 
     def rest(self):
         self.motion.rest()

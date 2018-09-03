@@ -11,7 +11,9 @@ class Sense:
         self.posestate = "rest"  # "rest" or "ready"
         self.controlstate = "controlled"  # "controlled" or "indep"
         self.agent = agent
+        self.target = None
         self.image = None
+        self.__scan_state = 0
 
     def tick(self):
         self.agent.pad.poll()
@@ -20,18 +22,15 @@ class Sense:
 
 class Think:
     def __init__(self, agent):
-        self.opmode = "waiting"  # "waiting" "searching" "moving" "failure" or "done"
+        self.opmode = "waiting"  # "waiting" "searching" "moving" or "done"
         self.agent = agent
-        self.head_yaw_step = 0.4
+        self.head_yaw_step = 0.2
 
     def tick(self):
         speech = self.agent.speechQueue.pop_element()
         if speech:
             pass
             # process text
-
-        if self.opmode == "failure":
-            return
         elif self.opmode == "waiting":
             speech = self.agent.speechQueue.pop_element()
             if speech:
@@ -40,11 +39,20 @@ class Think:
         elif self.opmode == "searching":
             if self.agent.sense.posestate == "rest":
                 self.agent.commandQueue.add_element(commands.pose_ready)
+
+            if not self.agent.sense.__scan_state:
+                self.agent.sense.__scan_state = 1
+                self.agent.commandQueue.add_element(commands.scan_view_step)
+
             img = self.agent.sense.image
             if img:
                 pass
                 # handle image
-        elif  self.opmode == "done":
+                # if target found, set opmode to moving
+        elif self.opmode == "moving":
+            pass
+            # handle moving
+        elif self.opmode == "done":
             self.agent.commandQueue.add_element(commands.pose_rest)
             # handle done
             # pose rest
