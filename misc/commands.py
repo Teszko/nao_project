@@ -21,18 +21,19 @@ def scan_view_step(agent):
 
 
 def pose_ready(agent):
-    agent.robot.say("ready")
+    agent.sense.posestate = "ready"
     agent.robot.wakeUp()
     time.sleep(5)
     agent.robot.initPose()
     time.sleep(5)
+    agent.robot.say("ready")
     # robot say ready
 
 
 def pose_rest(agent):
-    agent.robot.say("resting")
     agent.robot.rest()
     time.sleep(5)
+    agent.robot.say("resting")
     # robot say ready
 
 
