@@ -1,7 +1,7 @@
 
 class SpeechQueue:
     def __init__(self):
-        self.queue = ["red"]
+        self.reset()
 
     def add_element(self, str):
         self.queue.append(str)
@@ -11,3 +11,6 @@ class SpeechQueue:
             return self.queue.pop(0)
         else:
             return None
+
+    def reset(self):
+        self.queue = []

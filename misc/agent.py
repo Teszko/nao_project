@@ -5,7 +5,7 @@ import vision
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
 import commands
-
+import Recognizer
 
 class Sense:
     def __init__(self, agent):
@@ -15,12 +15,18 @@ class Sense:
         self.target = None
         self.image = None
         self.__scan_state = 0
+        self.__recognizer = Recognizer()
+        self.__recognizer.on_keyword = self.on_keyword
 
     def tick(self):
-        pass
         # self.agent.pad.poll()
-        # poll speech rec and add text to speechqueue if command given
 
+        if not self.__recognizer.is_running() and self.agent.think.opmode in ['waiting']:
+            self.__recognizer.run()
+
+    def on_keyword(self, keyword):
+        self.agent.speechQueue.reset()
+        self.agent.speechQueue.add_element(keyword)
 
 class Think:
     def __init__(self, agent):
