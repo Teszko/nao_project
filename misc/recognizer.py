@@ -38,6 +38,22 @@ class Recognizer():
         self.load_recognizer()
         self.load_hotword_model(model_file)
 
+    def is_running(self):
+        """ Returns True if detection is running"
+
+        Returns:
+            True if detection is running
+        """
+        return hasattr(self, '__running') && self.__running
+
+    def get_keyword_history(self):
+        """ Returns the keyword history
+
+        Returns:
+            List of keywords that were detected
+        """
+        return self.__keyword_history
+
     def set_keywords(self, keywords):
         """ Sets keywords and transforms each keyword to lower
 
@@ -175,9 +191,12 @@ class Recognizer():
     def run(self):
         print("Listening for hotword...")
 
+        self.__running = True
         self.__keyword_history = []
 
         self.__detector.start(self.on_hotword, self.on_interrupt_check)
+
+        self.__running = False
 
 if __name__ == '__main__':
     recognizer = Recognizer()
