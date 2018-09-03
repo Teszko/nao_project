@@ -1,5 +1,6 @@
 import time
 import robot
+import vision
 # import gamepad
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
@@ -48,11 +49,11 @@ class Think:
 
             img = self.agent.sense.image
             if img:
-                distance, angle = detect_blob(img, self.target, self.agent)
+                distance, angle = vision.detect_blob(img, self.target, self.agent)
                 if distance != -1:
                     self.opmode = "moving"
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
-                self.img = None
+                seelf.agent.sense.image = None
                 # handle image
                 # if target found, set opmode to moving
         elif self.opmode == "moving":
