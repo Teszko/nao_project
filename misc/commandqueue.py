@@ -8,13 +8,15 @@ class CommandQueue:
         self.queue = []
 
     def tick(self):
+        print "self.queue ", len(self.queue)
         if self.current:
-            if self.current.isAlive():
+            if self.current.is_alive():
                 return
 
         if len(self.queue):
             func = self.queue.pop(0)
             self.current = threading.Thread(target=func, args=(self.agent,))
+            self.current.start()
 
     def add_element(self, func):
         self.queue.append(func)

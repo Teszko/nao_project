@@ -9,5 +9,5 @@ class SpeechQueue:
     def pop_element(self):
         if len(self.queue):
             return self.queue.pop(0)
-        else
+        else:
             return None

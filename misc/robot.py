@@ -58,7 +58,7 @@ class Robot:
     def move(self, x, y, theta):
         self.motion.move(x, y, theta)
 
-    def set_head_angles(self, angles)
+    def set_head_angles(self, angles):
         names = ["HeadYaw", "HeadPitch"]
         # angles  = [0.2, -0.2]
         fractionMaxSpeed = 0.1

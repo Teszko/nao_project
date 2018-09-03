@@ -17,13 +17,13 @@ def get_img(robotIP, PORT):
         sys.exit(1)
 
     cameraId = 0
-    for i in range(0, 1):
-        data = vision.getBGR24Image(cameraId)
-        image = np.frombuffer(data, dtype=np.uint8).reshape((480, 640, 3))
 
-        cv2.imshow("Mask", image)
-        cv2.waitKey(10000)
-        cv2.imwrite('messigray.png', image)
+    data = vision.getBGR24Image(cameraId)
+    image = np.frombuffer(data, dtype=np.uint8).reshape((480, 640, 3))
+
+    cv2.imshow("Mask", image)
+    cv2.waitKey(10000)
+    cv2.imwrite('messigray.png', image)
 
     return image
 

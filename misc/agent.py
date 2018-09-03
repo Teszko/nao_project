@@ -20,8 +20,7 @@ class Sense:
 
 class Think:
     def __init__(self, agent):
-        self.opmode = "searching"  # "searching" or "moving"
-        self.scan_state = "done" # "done" or "progress"
+        self.opmode = "waiting"  # "waiting" "searching" "moving" "failure" or "done"
         self.agent = agent
         self.head_yaw_step = 0.4
 
@@ -31,13 +30,24 @@ class Think:
             pass
             # process text
 
-        if self.opmode == "searching" and self.op_state == "done":
-            self.agent.commandQueue.add_element(commands.scan_view_step)
-            # add commend to queue to move head and get new image
-
-        # analyze image here if sense.image not None
-        # set sense.image = None if you are done.
-
+        if self.opmode == "failure":
+            return
+        elif self.opmode == "waiting":
+            speech = self.agent.speechQueue.pop_element()
+            if speech:
+                pass
+                # handle command
+        elif self.opmode == "searching":
+            if self.agent.sense.posestate == "rest":
+                self.agent.commandQueue.add_element(commands.pose_ready)
+            img = self.agent.sense.image
+            if img:
+                pass
+                # handle image
+        elif  self.opmode == "done":
+            self.agent.commandQueue.add_element(commands.pose_rest)
+            # handle done
+            # pose rest
 
 
 class Act:
