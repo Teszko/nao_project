@@ -45,9 +45,9 @@ class Robot:
         data = self.vision.getBGR24Image(cameraId)
         image = np.frombuffer(data, dtype=np.uint8).reshape((480, 640, 3))
 
-        cv2.imshow("Mask", image)
-        cv2.waitKey(10000)
-        cv2.imwrite('messigray.png', image)
+        #cv2.imshow("Mask", image)
+        #cv2.waitKey(10000)
+        #cv2.imwrite('messigray.png', image)
 
         return image
 
@@ -63,7 +63,7 @@ class Robot:
 
     def rest(self):
         self.motion.rest()
-ŝ
+
     def move(self, x, y, theta):
         self.motion.move(x, y, theta)
 
