@@ -53,7 +53,7 @@ class Think:
                 if distance != -1:
                     self.opmode = "moving"
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
-                seelf.agent.sense.image = None
+                self.agent.sense.image = None
                 # handle image
                 # if target found, set opmode to moving
         elif self.opmode == "moving":
