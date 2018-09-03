@@ -9,7 +9,7 @@ def detect_blob(agent):
     if color == "red":
         center = detect_red_blob(image)
     elif color == "yellow":
-        center = detect_green_blob(image)
+        center = detect_yellow_blob(image)
     elif color == "blue":
         center = detect_blue_blob(image)
 
@@ -86,9 +86,8 @@ def detect_blue_blob(image):
 
 def get_distance(center, agent):
     # get head_angles values
-    anglesYaw, anglesPitch = agent.robot.get_head_angle()
+    anglesYaw = agent.robot.get_head_angle()
     # get y and y coordinates
-    x_coordinate = center[0]
     y_coordinate = center[1]
 
     # compute angle for points not in center of image (imagesize: 640 x 480)
