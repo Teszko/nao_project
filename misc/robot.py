@@ -9,13 +9,13 @@ import numpy as np
 class Robot:
     """hardware abstraction."""
     def __init__(self):
-        self.ip = "nao6.local"
+        self.ip = "nao5.local"
         self.port = 9559
-        self.initProxy()
         self.fractionMaxSpeed = 0.8
         self.motion = None
         self.vision = None
         self.tts = None
+        self.initProxy()
 
     def initProxy(self):
         try:
@@ -59,7 +59,7 @@ class Robot:
 
     def say(self, s):
         print(">", s)
-        self.tts.say(s)
+        #self.tts.say(s)
 
     def rest(self):
         self.motion.rest()
@@ -68,18 +68,19 @@ class Robot:
         self.motion.move(x, y, theta)
 
     def go_to(self, distance, angle):
-        self.motion.moveTo(distance, 0, angle)
+        self.motion.moveTo(0, 0, angle)
+        self.motion.moveTo(distance, 0, 0)
 
     def set_head_angles(self, angles):
         names = ["HeadYaw", "HeadPitch"]
         # angles  = [0.2, -0.2]
-        fractionMaxSpeed = 0.1
+        fractionMaxSpeed = 0.2
         self.motion.setAngles(names, angles, fractionMaxSpeed)
 
     def get_head_angle(self):
-        names = "Head"
+        names = "HeadYaw"
         HeadAngles = self.motion.getAngles(names, True)
-        return HeadAngles
+        return HeadAngles[0]
 
         # https://github.com/Teszko/programming-humanoid-robot-in-python/blob/master/nao_doc/motion.rst
         # getAngles(names, useSensors)

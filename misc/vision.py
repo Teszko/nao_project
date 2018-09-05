@@ -1,7 +1,7 @@
-import numpy as np
 import cv2
+import numpy as np
 
-def detect_blob(agent):
+def detect_blob(image, color, agent):
     center = -1
     image = agent.Sense.image
     color = agent.Sense.target
@@ -16,7 +16,7 @@ def detect_blob(agent):
     if center != -1:
         return get_distance(center, agent)
     else:
-        return -1
+        return -1, None
 
 
 def detect_red_blob(image):
@@ -93,7 +93,7 @@ def get_distance(center, agent):
     # compute angle for points not in center of image (imagesize: 640 x 480)
     y_offset = y_coordinate + 240
 
-    anglesYaw = anglesYaw + y_offset * (47.64 / 480)  # 47.64 degrees in x direction
+    anglesYaw = - (anglesYaw + y_offset * (47.64 / 480)) / 360 * 2 * 3.1415  # 47.64 degrees in x direction
 
     # distance = camera_height/ tan (90-head_angle)
     distance = 1

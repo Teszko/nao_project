@@ -14,9 +14,9 @@ class Sense:
         self.agent = agent
         self.target = None
         self.image = None
-        self.__scan_state = 0
         self.__recognizer = Recognizer()
         self.__recognizer.on_keyword = self.on_keyword
+        self.scan_state = 0
 
     def tick(self):
         # self.agent.pad.poll()
@@ -35,27 +35,24 @@ class Think:
         self.head_yaw_step = 0.2
 
     def tick(self):
-        speech = self.agent.speechQueue.pop_element()
-        if speech:
-            pass
-            # process text
-        elif self.opmode == "waiting":
+        if self.opmode == "waiting":
             speech = self.agent.speechQueue.pop_element()
             if speech:
-                self.sense.target = speech
+                self.agent.sense.target = speech
                 self.opmode = "searching"
                 self.agent.robot.say("set opmode to searching")
         elif self.opmode == "searching":
             if self.agent.sense.posestate == "rest":
                 self.agent.commandQueue.add_element(commands.pose_ready)
+                self.agent.commandQueue.add_element(commands.init_scan)
 
-            if not self.agent.sense.__scan_state:
-                self.agent.sense.__scan_state = 1
+            if not self.agent.sense.scan_state:
+                self.agent.sense.scan_state = 1
                 self.agent.commandQueue.add_element(commands.scan_view_step)
 
             img = self.agent.sense.image
-            if img:
-                distance, angle = vision.detect_blob(self.agent)
+            if img is not None:
+                distance, angle = vision.detect_blob(img, self.agent.sense.target, self.agent)
                 if distance != -1:
                     self.opmode = "moving"
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
