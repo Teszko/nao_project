@@ -8,7 +8,7 @@ import numpy as np
 
 class Robot:
     """hardware abstraction."""
-    def __init__(self):
+    def __init__(self, agent):
         self.ip = "nao5.local"
         self.port = 9559
         self.fractionMaxSpeed = 0.8
@@ -16,6 +16,7 @@ class Robot:
         self.vision = None
         self.tts = None
         self.initProxy()
+        self.agent = agent
 
     def initProxy(self):
         try:
@@ -40,9 +41,8 @@ class Robot:
             sys.exit(1)
 
     def get_img(self):
-        cameraId = 0
 
-        data = self.vision.getBGR24Image(cameraId)
+        data = self.vision.getBGR24Image(self.agent.think.camera)
         image = np.frombuffer(data, dtype=np.uint8).reshape((480, 640, 3))
 
         #cv2.imshow("Mask", image)

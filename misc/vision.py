@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import random
 
 def detect_blob(agent, camera):
     center = -1
@@ -71,6 +72,7 @@ def detect_red_blob(image):
     #cv2.destroyAllWindows()
     print("Total number of dots are:{}".format(len(totalDots)))
 
+    cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
     return center
 
 
@@ -108,6 +110,7 @@ def detect_yellow_blob(image):
         cv2.circle(img, center, radius, (0, 255, 0), 2)
         print("center:")
         print(center)
+        cv2.imwrite("pic.png", image)
     else:
         print("no dots found!")
         return -1
@@ -178,15 +181,14 @@ def get_distance(center, agent, camera):
     # compute angle for points not in center of image (imagesize: 640 x 480)
     y_offset = 240 - y_coordinate
 
-    anglesYaw = - (anglesYaw + y_offset * (47.64 / 480)) / 360 * 2 * 3.1415  # 47.64 degrees in x direction
+
+    anglesYaw = anglesYaw + ((y_offset * (60.97/ 480)) / 360 * 2 * 3.1415)  # 47.64 degrees in x direction
 
     if camera == 0:
-        distance =480 - y_coordinate *8/1000 + 0,85
+        distance = float(480 - y_coordinate) * 2.5 / 240 + 0.85
     elif camera ==1:
-        distance = 480 - y_coordinate * 1 / 1000 + 0,22
+        distance = 2 * float(480 - y_coordinate) * 0.46 / 240 + 0.22
     else:
         distance = -1
-
-
 
     return distance, anglesYaw

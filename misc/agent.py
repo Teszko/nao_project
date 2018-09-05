@@ -5,8 +5,10 @@ import vision
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
 import commands
-from recognizer import Recognizer
-from threading import Thread
+import numpy as np
+import math
+#from recognizer import Recognizer
+#from threading import Thread
 
 class Sense:
     def __init__(self, agent):
@@ -23,9 +25,9 @@ class Sense:
         pass
         # self.agent.pad.poll()
 
-        if not self.__recognizer.is_running() and self.agent.think.opmode in ['waiting']:
-            self.__thread = Thread(target = self.__recognizer.run)
-            self.__thread.start()
+        #if not self.__recognizer.is_running() and self.agent.think.opmode in ['waiting']:
+        #    self.__thread = Thread(target = self.__recognizer.run)
+        #    self.__thread.start()
 
     #def on_keyword(self, keyword):
     #    self.agent.speechQueue.reset()
@@ -38,6 +40,7 @@ class Think:
         self.head_yaw_step = 0.4
         self.camera = 0
         self.first_found = 0
+        self.no_scan = 0
 
     def tick(self):
         if self.opmode == "waiting":
@@ -58,10 +61,14 @@ class Think:
             img = self.agent.sense.image
             if img is not None:
                 distance, angle = vision.detect_blob(self.agent, self.camera)
+                print "distance, angle ", distance, " . ", angle
                 if distance != -1:
+                    self.agent.robot.say("distance " + str(np.around(distance, 1)))
+                    self.no_scan = 1
                     self.agent.commandQueue.add_element(commands.look_straight)
                     self.first_found = 1
-                    if distance <= 1.5 and self.camera == 0:
+                    if distance <= 1.8 and self.camera == 0:
+                        self.agent.robot.say("switching camera")
                         self.camera = 1
                         return
                     if distance <= 0.4 and self.camera == 1:
@@ -81,7 +88,8 @@ class Think:
             pass
             # handle moving
         elif self.opmode == "done":
-            self.agent.commandQueue.add_element(commands.pose_rest)
+            if not self.agent.sense.posestate == "rest":
+                self.agent.commandQueue.add_element(commands.pose_rest)
             # handle done
             # pose rest
 
@@ -100,7 +108,7 @@ class Agent:
         self.sense = Sense(self)
         self.think = Think(self)
         self.act = Act(self)
-        self.robot = robot.Robot()
+        self.robot = robot.Robot(self)
         # self.pad = gamepad.Pad(self)
         self.commandQueue = CommandQueue(self)
         self.speechQueue = SpeechQueue()

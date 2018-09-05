@@ -12,7 +12,9 @@ def init_scan(agent):
 
 
 def scan_view_step(agent):
-    agent.robot.say("scan view")
+    if agent.think.no_scan:
+        return
+    #agent.robot.say("scan view")
     current_angle = agent.robot.get_head_angle()
     # max yaw +-2.0857
     yaw = current_angle
@@ -50,6 +52,7 @@ def pose_ready(agent):
 
 
 def pose_rest(agent):
+    agent.sense.posestate = "rest"
     agent.robot.rest()
     time.sleep(5)
     agent.robot.say("resting")
