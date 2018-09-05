@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def detect_blob(image, color, agent):
+def detect_blob(agent):
     center = -1
     image = agent.Sense.image
     color = agent.Sense.target

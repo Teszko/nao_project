@@ -52,7 +52,7 @@ class Think:
 
             img = self.agent.sense.image
             if img is not None:
-                distance, angle = vision.detect_blob(img, self.agent.sense.target, self.agent)
+                distance, angle = vision.detect_blob(self.agent)
                 if distance != -1:
                     self.opmode = "moving"
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
