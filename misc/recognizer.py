@@ -65,7 +65,7 @@ class Recognizer():
         Returns:
             True if detection is running
         """
-        return hasattr(self, '__running') && self.__running
+        return hasattr(self, '__running') and self.__running
 
     def get_keyword_history(self):
         """ Returns the keyword history
