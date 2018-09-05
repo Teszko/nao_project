@@ -16,7 +16,7 @@ class Recognizer():
     """
 
     DEFAULT_MODEL = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'jarvis.umdl'))
-    DEFAULT_KEYWORDS = ['red', 'green', 'blue']
+    DEFAULT_KEYWORDS = ['red', 'yellow', 'blue']
     DEFAULT_ADJUSTING_DURATION = 5
     RESOURCE_FILE = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'common.res'))
 
