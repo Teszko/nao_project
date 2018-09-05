@@ -176,7 +176,7 @@ def get_distance(center, agent, camera):
     y_coordinate = center[1]
 
     # compute angle for points not in center of image (imagesize: 640 x 480)
-    y_offset = y_coordinate + 240
+    y_offset = 240 - y_coordinate
 
     anglesYaw = - (anglesYaw + y_offset * (47.64 / 480)) / 360 * 2 * 3.1415  # 47.64 degrees in x direction
 
