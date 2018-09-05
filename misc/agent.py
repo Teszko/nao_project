@@ -23,8 +23,8 @@ class Sense:
         # self.agent.pad.poll()
 
         if not self.__recognizer.is_running() and self.agent.think.opmode in ['waiting']:
-            thread = Thread(target = self.__recognizer.run)
-            thread.start()
+            self.__thread = Thread(target = self.__recognizer.run)
+            self.__thread.start()
 
     def on_keyword(self, keyword):
         self.agent.speechQueue.reset()
