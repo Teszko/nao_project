@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def detect_blob(agent):
+def detect_blob(agent, camera):
     center = -1
     image = agent.Sense.image
     color = agent.Sense.target
@@ -14,7 +14,7 @@ def detect_blob(agent):
         center = detect_blue_blob(image)
 
     if center != -1:
-        return get_distance(center, agent)
+        return get_distance(center, agent, camera)
     else:
         return -1, None
 
@@ -169,7 +169,7 @@ def detect_blue_blob(image):
     return center
 
 
-def get_distance(center, agent):
+def get_distance(center, agent, camera):
     # get head_angles values
     anglesYaw = agent.robot.get_head_angle()
     # get y and y coordinates
@@ -180,7 +180,13 @@ def get_distance(center, agent):
 
     anglesYaw = - (anglesYaw + y_offset * (47.64 / 480)) / 360 * 2 * 3.1415  # 47.64 degrees in x direction
 
-    # distance = camera_height/ tan (90-head_angle)
-    distance = 1
+    if camera == 0:
+        distance =480 - y_coordinate *8/1000 + 0,85
+    elif camera ==1:
+        distance = 480 - y_coordinate * 1 / 1000 + 0,22
+    else:
+        distance = -1
+
+
 
     return distance, anglesYaw
