@@ -32,6 +32,8 @@ class Recognizer():
     since Google Speech Recognition requires it. Snowboy works offline.
 
     If you want to try out the class call python recognizer.py in your shell.
+
+    For more information about Snowboy visit https://snowboy.kitt.ai/.
     """
 
     DEFAULT_MODEL = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'jarvis.umdl'))
