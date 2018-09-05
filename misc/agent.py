@@ -33,6 +33,7 @@ class Think:
         self.opmode = "waiting"  # "waiting" "searching" "moving" or "done"
         self.agent = agent
         self.head_yaw_step = 0.2
+        self.camera = 0
 
     def tick(self):
         if self.opmode == "waiting":
@@ -55,10 +56,15 @@ class Think:
                 distance, angle = vision.detect_blob(self.agent)
                 self.agent.commandQueue.add_element(commands.look_straight)
                 if distance != -1:
-                    if distance <= 0.5:
-                        self.opmode = "done"
+                    if distance <= 1.5 and self.camera == 0:
+                        self.camera = 1
+                        return
+                    if distance <= 0.4 and self.camera == 1:
+                        self.camera = 1
                         return
                     self.opmode = "moving"
+                    if distance > 1:
+                        distance = 1
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
                     self.agent.commandQueue.add_element(commands.scan_front)
                 self.agent.sense.image = None
