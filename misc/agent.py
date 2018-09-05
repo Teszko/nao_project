@@ -52,10 +52,15 @@ class Think:
 
             img = self.agent.sense.image
             if img is not None:
-                distance, angle = vision.detect_blob(self.agent)
+                distance, angle = vision.detect_blob(img, self.agent.sense.target, self.agent)
+                self.agent.commandQueue.add_element(commands.look_straight)
                 if distance != -1:
+                    if distance <= 0.1:
+                        self.opmode = "done"
+                        return
                     self.opmode = "moving"
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
+                    self.agent.commandQueue.add_element(commands.scan_front)
                 self.agent.sense.image = None
                 # handle image
                 # if target found, set opmode to moving

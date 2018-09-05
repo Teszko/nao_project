@@ -26,6 +26,19 @@ def scan_view_step(agent):
     agent.sense.scan_state = 0
 
 
+def scan_front(agent):
+    agent.robot.say("scan front")
+    agent.robot.set_head_angles([0, -1])
+    time.sleep(0.5)
+    agent.sense.image = agent.robot.get_img()
+    agent.sense.scan_state = 0
+
+
+def look_straight(agent):
+    agent.robot.set_head_angles([0, 0])
+    time.sleep(2)
+
+
 def pose_ready(agent):
     agent.sense.posestate = "ready"
     agent.robot.wake()
@@ -44,5 +57,9 @@ def pose_rest(agent):
 
 
 def go_to(distance, angle):
-    return lambda agent: agent.robot.go_to(distance, angle)
+    def actual_go_to(agent):
+        agent.robot.go_to(distance, angle)
+        agent.think.opmode = "searching"
+    return actual_go_to
+    # return lambda agent: agent.robot.go_to(distance, angle)
 
