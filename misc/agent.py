@@ -5,7 +5,7 @@ import vision
 from commandqueue import CommandQueue
 from speechqueue import SpeechQueue
 import commands
-import Recognizer
+from recognizer import Recognizer
 
 class Sense:
     def __init__(self, agent):
