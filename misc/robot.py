@@ -59,7 +59,7 @@ class Robot:
 
     def say(self, s):
         print(">", s)
-        #self.tts.say(s)
+        self.tts.say(s)
 
     def rest(self):
         self.motion.rest()
