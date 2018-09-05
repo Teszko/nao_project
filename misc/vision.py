@@ -3,8 +3,8 @@ import numpy as np
 
 def detect_blob(agent, camera):
     center = -1
-    image = agent.Sense.image
-    color = agent.Sense.target
+    image = agent.sense.image
+    color = agent.sense.target
 
     if color == "red":
         center = detect_red_blob(image)

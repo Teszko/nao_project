@@ -53,7 +53,7 @@ class Think:
 
             img = self.agent.sense.image
             if img is not None:
-                distance, angle = vision.detect_blob(self.agent, Think.camera)
+                distance, angle = vision.detect_blob(self.agent, self.camera)
                 self.agent.commandQueue.add_element(commands.look_straight)
                 if distance != -1:
                     if distance <= 1.5 and self.camera == 0:
