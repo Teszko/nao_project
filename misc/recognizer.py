@@ -12,7 +12,7 @@ class Recognizer():
     recognizer = Recognizer()
     recognizer.run()
 
-    You may overwrite methods like on_hotword, on_phrase and on_keyword by subclassing Recognizer or monkey patching them.
+    You may override methods like on_hotword, on_phrase and on_keyword by subclassing Recognizer or monkey patching them.
     """
 
     DEFAULT_MODEL = path.abspath(path.join(path.dirname(__file__), os.pardir, 'res', 'jarvis.umdl'))
