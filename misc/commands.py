@@ -28,8 +28,8 @@ def scan_view_step(agent):
 
 def scan_front(agent):
     agent.robot.say("scan front")
-    agent.robot.set_head_angles([0, -1])
-    time.sleep(0.5)
+    agent.robot.set_head_angles([0, 0])
+    time.sleep(0.2)
     agent.sense.image = agent.robot.get_img()
     agent.sense.scan_state = 0
 

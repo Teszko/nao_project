@@ -55,7 +55,7 @@ class Think:
                 distance, angle = vision.detect_blob(self.agent)
                 self.agent.commandQueue.add_element(commands.look_straight)
                 if distance != -1:
-                    if distance <= 0.1:
+                    if distance <= 0.5:
                         self.opmode = "done"
                         return
                     self.opmode = "moving"
