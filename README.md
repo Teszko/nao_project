@@ -3,12 +3,14 @@
 ### General
 * Python Development Files
 * PortAudio Development Files
+* Atlas Development Files
+* SWIG
 ### apt
 
-`apt-get install portaudio19-dev python-all-dev libatlas-base-dev` 
+`apt-get install portaudio19-dev python-all-dev libatlas-base-dev swig` 
 ### yum
 
-`yum install python-devel portaudio-devel-19 atlas-devel`
+`yum install python-devel portaudio-devel-19 atlas-devel swig`
 
 ## Problems
 ### Recognizer
