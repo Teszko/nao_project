@@ -3,11 +3,13 @@ import time
 
 def init_scan(agent):
     agent.sense.scan_state = 1
+    agent.think.scan_done = 0
     agent.robot.say("init scan")
     current_angle = agent.robot.get_head_angle()
     #agent.robot.say("current angle "+ current_angle[0])
     agent.robot.set_head_angles([-2.0, 0])
     time.sleep(3)
+    agent.think.no_scan = 0
     agent.sense.scan_state = 0
 
 
@@ -21,6 +23,8 @@ def scan_view_step(agent):
     pitch = 0
     if yaw >= 2:
         # agent.robot.think.opmode = "search_done"
+        agent.sense.image = agent.robot.get_img()
+        agent.sense.scan_state = 0
         agent.think.scan_done = 1
         return
     agent.robot.set_head_angles([yaw + agent.think.head_yaw_step, pitch])
@@ -35,6 +39,7 @@ def scan_front(agent):
     time.sleep(0.2)
     agent.sense.image = agent.robot.get_img()
     agent.sense.scan_state = 0
+    agent.think.scan_done = 1
 
 
 def look_straight(agent):
@@ -63,7 +68,7 @@ def pose_rest(agent):
 def go_to(distance, angle):
     def actual_go_to(agent):
         agent.robot.go_to(distance, angle)
-        agent.think.opmode = "searching"
+        # agent.think.opmode = "searching"
     return actual_go_to
     # return lambda agent: agent.robot.go_to(distance, angle)
 

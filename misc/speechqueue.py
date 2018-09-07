@@ -13,4 +13,4 @@ class SpeechQueue:
             return None
 
     def reset(self):
-        self.queue = ["red"]
+        self.queue = []

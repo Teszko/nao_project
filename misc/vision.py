@@ -73,18 +73,18 @@ def get_distance(center, agent, camera):
     # get head_angles values
     anglesYaw = agent.robot.get_head_angle()
     # get y and y coordinates
-    y_coordinate = center[1]
+    x_coordinate, y_coordinate = center
 
     # compute angle for points not in center of image (imagesize: 640 x 480)
-    y_offset = 240 - y_coordinate
+    x_offset = 320 - x_coordinate
 
 
-    anglesYaw = anglesYaw + ((y_offset * (60.97/ 480)) / 360 * 2 * 3.1415)  # 47.64 degrees in x direction
+    anglesYaw = anglesYaw + ((x_offset * (60.97/ 640)) / 360 * 2 * 3.1415)  # 47.64 degrees in x direction
 
     if camera == 0:
         distance = float(480 - y_coordinate) * 2.5 / 240 + 0.85
     elif camera == 1:
-        distance = 2 * float(480 - y_coordinate) * 0.46 / 240 + 0.22
+        distance = float(480 - y_coordinate) * 0.46 / 240 + 0.22
     else:
         distance = -1
 

@@ -207,7 +207,13 @@ class Recognizer():
         Returns:
             True if termination is enabled and detection should be interrupted
         """
-        return self.get_terminate() and len(self.__keyword_history) > 0
+
+        value = self.get_terminate() and len(self.__keyword_history) > 0
+
+        if not value:
+            self.__running = False
+
+        return value
 
     def run(self):
         print("Listening for hotword...")
@@ -216,8 +222,6 @@ class Recognizer():
         self.__keyword_history = []
 
         self.__detector.start(self.on_hotword, self.on_interrupt_check)
-
-        self.__running = False
 
 if __name__ == '__main__':
     recognizer = Recognizer()
