@@ -2,8 +2,8 @@ import time
 
 
 def init_scan(agent):
-    agent.robot.say("init scan")
     agent.sense.scan_state = 1
+    agent.robot.say("init scan")
     current_angle = agent.robot.get_head_angle()
     #agent.robot.say("current angle "+ current_angle[0])
     agent.robot.set_head_angles([-2.0, 0])
@@ -21,6 +21,7 @@ def scan_view_step(agent):
     pitch = 0
     if yaw >= 2:
         # agent.robot.think.opmode = "search_done"
+        agent.think.scan_done = 1
         return
     agent.robot.set_head_angles([yaw + agent.think.head_yaw_step, pitch])
     time.sleep(0.2)

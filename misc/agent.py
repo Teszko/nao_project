@@ -41,6 +41,13 @@ class Think:
         self.camera = 0
         self.first_found = 0
         self.no_scan = 0
+        self.scan_done = 0
+
+    def reset_scan(self):
+        self.first_found = 0
+        self.agent.sense.scan_state = 0
+        self.no_scan = 0
+        self.agent.commandQueue.add_element(commands.init_scan)
 
     def tick(self):
         if self.opmode == "waiting":
@@ -63,6 +70,7 @@ class Think:
                 distance, angle = vision.detect_blob(self.agent, self.camera)
                 print "distance, angle ", distance, " . ", angle
                 if distance != -1:
+                    self.scan_done = 1
                     self.agent.robot.say("distance " + str(np.around(distance, 1)))
                     self.no_scan = 1
                     self.agent.commandQueue.add_element(commands.look_straight)
@@ -70,9 +78,7 @@ class Think:
                     if distance <= 1.8 and self.camera == 0:
                         self.agent.robot.say("switching camera")
                         self.camera = 1
-                        return
-                    if distance <= 0.4 and self.camera == 1:
-                        self.camera = 1
+                    elif distance <= 0.4 and self.camera == 1:
                         self.agent.commandQueue.add_element(commands.go_to(distance, angle))
                         self.opmode = "done"
                         return
@@ -81,6 +87,15 @@ class Think:
                         distance = 1
                     self.agent.commandQueue.add_element(commands.go_to(distance, angle)) #angle = HeadYaw, distance in m
                     self.agent.commandQueue.add_element(commands.scan_front)
+                else:
+                    print "distance -1"
+                    if self.scan_done:
+                        print "restart scan"
+                        newcam = 1 - self.camera
+                        self.agent.robot.say("nothing found switching to camera " + str(newcam))
+                        self.camera = newcam
+                        self.reset_scan()
+
                 self.agent.sense.image = None
                 # handle image
                 # if target found, set opmode to moving

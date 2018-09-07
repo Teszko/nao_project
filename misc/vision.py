@@ -173,6 +173,9 @@ def detect_blue_blob(image):
 
 
 def get_distance(center, agent, camera):
+    print "get distance"
+    print center
+    print "camera ", camera
     # get head_angles values
     anglesYaw = agent.robot.get_head_angle()
     # get y and y coordinates
@@ -186,7 +189,7 @@ def get_distance(center, agent, camera):
 
     if camera == 0:
         distance = float(480 - y_coordinate) * 2.5 / 240 + 0.85
-    elif camera ==1:
+    elif camera == 1:
         distance = 2 * float(480 - y_coordinate) * 0.46 / 240 + 0.22
     else:
         distance = -1

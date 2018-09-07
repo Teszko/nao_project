@@ -3,6 +3,7 @@ import motion
 from naoqi import ALProxy
 import sys
 import cv2
+import time
 import numpy as np
 
 
@@ -69,6 +70,7 @@ class Robot:
 
     def go_to(self, distance, angle):
         self.motion.moveTo(0, 0, angle)
+        time.sleep(2)
         self.motion.moveTo(distance, 0, 0)
 
     def set_head_angles(self, angles):
