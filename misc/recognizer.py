@@ -59,14 +59,6 @@ class Recognizer():
         self.load_recognizer()
         self.load_hotword_model(model_file)
 
-    def is_running(self):
-        """ Returns True if detection is running"
-
-        Returns:
-            True if detection is running
-        """
-        return hasattr(self, '__running') and self.__running
-
     def get_keyword_history(self):
         """ Returns the keyword history
 
@@ -208,17 +200,11 @@ class Recognizer():
             True if termination is enabled and detection should be interrupted
         """
 
-        value = self.get_terminate() and len(self.__keyword_history) > 0
-
-        if not value:
-            self.__running = False
-
-        return value
+        return self.get_terminate() and len(self.__keyword_history) > 0
 
     def run(self):
         print("Listening for hotword...")
 
-        self.__running = True
         self.__keyword_history = []
 
         self.__detector.start(self.on_hotword, self.on_interrupt_check)

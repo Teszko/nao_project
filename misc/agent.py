@@ -20,6 +20,7 @@ class Sense:
         self.__recognizer = Recognizer()
         self.__recognizer.on_keyword = self.on_keyword
         self.__thread = Thread(target = self.__recognizer.run)
+        self.__thread.daemon = True
 
         self.scan_state = 0
 
@@ -32,7 +33,6 @@ class Sense:
     def on_keyword(self, keyword):
         self.agent.speechQueue.reset()
         self.agent.speechQueue.add_element(keyword)
-
 
 class Think:
     def __init__(self, agent):
@@ -144,13 +144,6 @@ class Agent:
         self.commandQueue = CommandQueue(self)
         self.speechQueue = SpeechQueue()
 
-    def __enter__(self):
-        self.run()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if hasattr(self.sense, '__thread'):
-            self.sense.__thread.terminate()
-
     def sense_think_act(self):
         self.sense.tick()
         self.think.tick()
@@ -159,3 +152,5 @@ class Agent:
     def run(self):
         while True:
             self.sense_think_act()
+
+        self.sense.__thread.terminate()
