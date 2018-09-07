@@ -15,6 +15,6 @@
 ## Problems
 ### Recognizer
 If you are facing any issues with the recognizer please generate a custom SWIG interface for snowboy.
-Checkout their GitHub Repository for instructions. Afterwards copy snowboydetect.py and _snowboydetect.so into
+Checkout their GitHub Repository for instructions. Afterwards copy `snowboydetect.py` and `_snowboydetect.so` into
 the misc directory.
 
