@@ -86,7 +86,7 @@ def get_distance(center, agent, camera):
     x_offset = 320 - x_coordinate
 
 
-    anglesYaw = anglesYaw + ((x_offset * (60.97/ 640)) / 360 * 2 * 3.1415)  # 60.97 degrees in x direction
+    anglesYaw = anglesYaw + ((x_offset * (60.97/ 640)) / 360 * 2 * 3.1415)  # 47.64 degrees in x direction
 
     if camera == 0:
         distance = float(480 - y_coordinate) * 2.5 / 240 + 0.85

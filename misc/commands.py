@@ -17,13 +17,12 @@ def scan_view_step(agent):
     if yaw >= 2:
         # agent.robot.think.opmode = "search_done"
         agent.think.num_full_scans += 1
-        time.sleep(2)
         agent.sense.image = agent.robot.get_img()
         agent.think.finished_scan = 1
         agent.scanning = 0
         return
     agent.robot.set_head_angles([yaw + agent.think.head_yaw_step, pitch])
-    time.sleep(5)
+    time.sleep(0.2)
     agent.sense.image = agent.robot.get_img()
     agent.think.scanning = 0
 
@@ -40,7 +39,7 @@ def scan_front(agent):
     agent.think.finished_scan = 0
     agent.robot.say("scan front")
     agent.robot.set_head_angles([0, 0])
-    time.sleep(5)
+    time.sleep(0.5)
     agent.sense.image = agent.robot.get_img()
     agent.think.num_full_scans += 1
     agent.scanning = 0
