@@ -38,7 +38,7 @@ class Think:
     def __init__(self, agent):
         self.opmode = "waiting"  # "waiting" "searching" "moving" or "done"
         self.agent = agent
-        self.max_dist = 0.8
+        self.max_dist = 1.0
         self.head_yaw_step = 0.4
         self.camera = 0
         self.num_full_scans = 0
