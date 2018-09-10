@@ -1,7 +1,7 @@
 import commands
 import vision
 import numpy as np
-
+import time
 
 def state_wait_fn(agent):
     speech = agent.speechQueue.pop_element()
@@ -12,10 +12,12 @@ def state_wait_fn(agent):
 
 
 def state_done_fn(agent):
-    agent.robot.say("done")
-    agent.sense.posestate = "rest"
-    agent.commandQueue.add_element(commands.pose_rest)
-    agent.commandQueue.set_lock()
+    if agent.sense.posestate != "rest":
+        agent.sense.posestate = "rest"
+        agent.commandQueue.add_element(commands.pose_rest)
+        agent.commandQueue.set_lock()
+    else:
+        time.sleep(0.5)
 
 
 def state_search_fn(agent):
@@ -35,9 +37,12 @@ def state_search_fn(agent):
             agent.think.found = 1
             agent.think.scan_type = 1
             agent.robot.say("distance " + str(np.around(distance, 1)))
-            distance = min(agent.think.max_dist, distance)
-            agent.think.walk_to_target(distance, angle)
-            if distance < 0.4:
+            walk_distance = min(agent.think.max_dist, distance)
+            agent.think.walking = 1
+            if (distance - walk_distance) < 0.4:
+                walk_distance = max(0.1, distance - 0.4)
+            agent.think.walk_to_target(walk_distance, angle)
+            if distance <= agent.think.max_dist:
                 agent.stateMachine.change_state(agent.stateMachine.state_done)
                 # end condition
 
@@ -45,9 +50,11 @@ def state_search_fn(agent):
         return
 
     if agent.think.walking:
+        print "walking"
         return
 
     if agent.think.scanning:
+        print "scanning"
         return
 
     if agent.think.scan_type == 1:
