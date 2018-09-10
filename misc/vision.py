@@ -7,14 +7,17 @@ def detect_blob(agent, camera):
     image = agent.sense.image
     color = agent.sense.target
     #color values in RGB
-    red = ([5, 50, 50], [15, 255, 255])
-    blue = ([100, 150, 0], [140, 255, 255])
+    boundaries_red = [([5, 50, 50], [15, 255, 255]),
+                      ([170, 50, 50], [180, 255, 255])]
+
+    boundaries_blue = [([85, 10, 10], [140, 255, 255]),
+                       ([85, 10, 10], [100, 255, 225])]
 
 
     if color == "red":
-        center = get_blob_center(image, red)
+        center = get_blob_center(image, boundaries_red)
     elif color == "blue":
-        center = get_blob_center(image, blue)
+        center = get_blob_center(image, boundaries_blue)
 
     if center != -1:
         return get_distance(center, agent, camera)
@@ -22,11 +25,15 @@ def detect_blob(agent, camera):
         return -1, None
 
 
-def get_blob_center(image, color):
+def get_blob_center(image, boundaries):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower_boundary = np.array(color[0])
-    upper_boundary = np.array(color[1])
-    mask = cv2.inRange(img, lower_boundary, upper_boundary)
+    mask = 0
+
+    for (lower, upper) in boundaries:
+        lower_boundary = np.array(lower)
+        upper_boundary = np.array(upper)
+
+        mask = mask + cv2.inRange(img, lower_boundary, upper_boundary)
 
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
