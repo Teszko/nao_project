@@ -7,7 +7,7 @@ def detect_blob(agent, camera):
     image = agent.sense.image
     color = agent.sense.target
     #color values in RGB
-    boundaries_red = [([5, 50, 50], [15, 255, 255]),
+    boundaries_red = [([0, 50, 50], [15, 255, 255]),
                       ([170, 50, 50], [180, 255, 255])]
 
     boundaries_blue = [([85, 10, 10], [140, 255, 255]),
