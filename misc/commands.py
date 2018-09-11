@@ -2,6 +2,8 @@ import time
 
 
 def init_scan(agent):
+    """ Turn head fully to the right to start the scan.
+    """
     current_angle = agent.robot.get_head_angle()
     #agent.robot.say("current angle "+ current_angle[0])
     agent.robot.set_head_angles([-2.0, 0])
@@ -9,6 +11,9 @@ def init_scan(agent):
 
 
 def scan_view_step(agent):
+    """ move the head a bit to the left and take an image. if head already
+        fully to the left, take an image and finish the scan.
+    """
     #agent.robot.say("scan view")
     current_angle = agent.robot.get_head_angle()
     # max yaw +-2.0857
@@ -28,6 +33,10 @@ def scan_view_step(agent):
 
 
 def scan_front(agent):
+    """ takes an image while looking straigt forward.
+        if this is the second attempt, change the camera, then
+        take the image. if this is the third, abort.
+    """
     if agent.think.num_full_scans == 1:
         agent.think.switch_camera()
     if agent.think.num_full_scans == 2:
@@ -46,11 +55,15 @@ def scan_front(agent):
 
 
 def look_straight(agent):
+    """makes the robot look straigt forward.
+    """
     agent.robot.set_head_angles([0, 0])
     time.sleep(2)
 
 
 def pose_ready(agent):
+    """if the robot is sitting down, stand up. give audio feedback.
+    """
     agent.sense.posestate = "ready"
     agent.robot.wake()
     time.sleep(2)
@@ -61,6 +74,8 @@ def pose_ready(agent):
 
 
 def pose_rest(agent):
+    """move the robot back into a resting position.
+    """
     agent.sense.posestate = "rest"
     agent.robot.rest()
     time.sleep(5)
@@ -69,6 +84,12 @@ def pose_rest(agent):
 
 
 def go_to(distance, angle):
+    """make the robot turn by a specific angle and walk a specific distance.
+
+    Args:
+        distance (float): distance in meter.
+        angle (float): angle in radians.
+    """
     def actual_go_to(agent):
         agent.robot.go_to(distance, angle)
         # agent.think.opmode = "searching"

@@ -4,6 +4,7 @@ import numpy as np
 
 
 def state_wait_fn(agent):
+    """ defines logic for state 'wait'"""
     speech = agent.speechQueue.pop_element()
     if speech:
         agent.sense.target = speech
@@ -12,6 +13,7 @@ def state_wait_fn(agent):
 
 
 def state_done_fn(agent):
+    """ defines logic for state 'done'"""
     agent.robot.say("done")
     agent.sense.posestate = "rest"
     agent.commandQueue.add_element(commands.pose_rest)
@@ -19,6 +21,7 @@ def state_done_fn(agent):
 
 
 def state_search_fn(agent):
+    """ defines logic for state 'search'"""
     if agent.sense.posestate == "rest":
         agent.commandQueue.add_element(commands.pose_ready, "pose ready")
         agent.think.init_scan()
@@ -70,6 +73,7 @@ def state_search_fn(agent):
 
 
 class StateMachine:
+    """ governs which state the robot is in. wait, search, done """
     def __init__(self, agent):
         self.agent = agent
         self.current_state = None
@@ -79,8 +83,10 @@ class StateMachine:
         self.current_state = self.state_wait
 
     def change_state(self, state):
+        """ change current state to different state """
         self.current_state = state
 
     def tick(self):
+        """ run current state """
         if self.current_state is not None:
             self.current_state(self.agent)

@@ -13,6 +13,8 @@ from threading import Thread
 
 
 class Sense:
+    """ Sense part of sense - think - act loop. Provides an interface to sensors.
+    """
     def __init__(self, agent):
         self.posestate = "rest"  # "rest" or "ready"
         self.controlstate = "controlled"  # "controlled" or "indep"
@@ -35,6 +37,9 @@ class Sense:
 
 
 class Think:
+    """ Think part of sense - think - act loop. Computes sensor output,
+        controls robot behaviour. Adds actions to command queue.
+    """
     def __init__(self, agent):
         self.opmode = "waiting"  # "waiting" "searching" "moving" or "done"
         self.agent = agent
@@ -74,6 +79,8 @@ class Think:
 
 
 class Act:
+    """ Act part of sense - think - act loop. Runs elements in command queue.
+    """
     def __init__(self, agent):
         self.agent = agent
 
@@ -83,6 +90,8 @@ class Act:
 
 
 class Agent:
+    """ Agent, call sense - think - act loop.
+    """
     def __init__(self):
         self.sense = Sense(self)
         self.think = Think(self)

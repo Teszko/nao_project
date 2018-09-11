@@ -72,9 +72,6 @@ class Recognizer():
 
         Args:
             keywords: List of keywords
-
-        Returns:
-            None
         """
 
         self.__keywords = list(map(lambda x: x.lower(), keywords))
@@ -93,14 +90,13 @@ class Recognizer():
 
         Args:
             terminate: True if termination is enabled
-        Returns:
-            None
         """
 
         self.__terminate = terminate
 
     def get_terminate(self):
         """ Returns termination setting
+
         Returns:
             True of termination is enabled
         """
@@ -109,11 +105,9 @@ class Recognizer():
 
     def load_recognizer(self, adjust_microphone = True):
         """ Loads the recognizer
+
         Args:
             adjust_microphone: True for adjusting the recognizer using the default microphone
-
-        Returns:
-            None
         """
 
         self.__recognizer = sr.Recognizer()
@@ -129,18 +123,12 @@ class Recognizer():
 
         Args:
             model_file: Path to a .umdl file used for hotword detection
-
-        Returns:
-            None
         """
 
         self.__detector = snowboydecoder.HotwordDetector(model_file, Recognizer.RESOURCE_FILE)
 
     def on_hotword(self):
         """ Callback which gets called whenever the hotword was detected
-
-        Returns:
-            None
         """
 
         print("Listening for audio...")
@@ -160,9 +148,6 @@ class Recognizer():
 
         Args:
             phrase: Phrase that was recorded
-
-        Returns:
-            None
         """
 
         print("Phrase \"" + phrase + "\" detected!")
@@ -186,9 +171,6 @@ class Recognizer():
 
         Args:
             keyword: Keyword that was detected
-
-        Returns:
-            None
         """
 
         print("Keyword \"" + keyword + "\" detected!")
@@ -208,6 +190,7 @@ class Recognizer():
         self.__keyword_history = []
 
         self.__detector.start(self.on_hotword, self.on_interrupt_check)
+
 
 if __name__ == '__main__':
     recognizer = Recognizer()
