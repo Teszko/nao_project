@@ -1,6 +1,6 @@
 
-How-to: change the docs
-=======================
+How-to: edit the docs
+=====================
 
 Docs are created using python sphinx. `Source <https://github.com/Teszko/nao_project/tree/master/docs>`_
 

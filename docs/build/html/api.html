@@ -26,10 +26,11 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="testing sphinx syntax" href="testpage.html" />
-    <link rel="prev" title="Manually controlling the robot" href="control.html" /> 
+    <link rel="next" title="How-to: edit the docs" href="changedocs.html" />
+    <link rel="prev" title="Vision" href="vision.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,13 +84,24 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="changedocs.html">How-to: change the docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="control.html">Manually controlling the robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic.html">Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="speech.html">Speech Recognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vision.html">Vision</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#class-reference">Class reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-reference">Class reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#agent-py">agent.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commandqueue-py">commandqueue.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands-py">commands.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recognizer-py">recognizer.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#robot-py">robot.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#states-py">states.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision-py">vision.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="testpage.html">testing sphinx syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changedocs.html">How-to: edit the docs</a></li>
 </ul>
 
             
@@ -159,18 +171,406 @@
 <p>This document contains automatically generated api docs.</p>
 <div class="section" id="class-reference">
 <h2>Class reference<a class="headerlink" href="#class-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="agent-py">
+<h3>agent.py<a class="headerlink" href="#agent-py" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="controlled_robot.Pad">
-<em class="property">class </em><code class="descclassname">controlled_robot.</code><code class="descname">Pad</code><span class="sig-paren">(</span><em>robot</em><span class="sig-paren">)</span><a class="headerlink" href="#controlled_robot.Pad" title="Permalink to this definition">¶</a></dt>
-<dd><p>initializing and handling controller inputs.</p>
+<dt id="misc.agent.Sense">
+<em class="property">class </em><code class="descclassname">misc.agent.</code><code class="descname">Sense</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.agent.Sense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sense part of sense - think - act loop. Provides an interface to sensors.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="controlled_robot.Robot">
-<em class="property">class </em><code class="descclassname">controlled_robot.</code><code class="descname">Robot</code><a class="headerlink" href="#controlled_robot.Robot" title="Permalink to this definition">¶</a></dt>
-<dd><p>key agent components.</p>
+<dt id="misc.agent.Think">
+<em class="property">class </em><code class="descclassname">misc.agent.</code><code class="descname">Think</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.agent.Think" title="Permalink to this definition">¶</a></dt>
+<dd><p>Think part of sense - think - act loop. Computes sensor output,
+controls robot behaviour. Adds actions to command queue.</p>
 </dd></dl>
 
+<dl class="class">
+<dt id="misc.agent.Act">
+<em class="property">class </em><code class="descclassname">misc.agent.</code><code class="descname">Act</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.agent.Act" title="Permalink to this definition">¶</a></dt>
+<dd><p>Act part of sense - think - act loop. Runs elements in command queue.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="commandqueue-py">
+<h3>commandqueue.py<a class="headerlink" href="#commandqueue-py" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="misc.commandqueue.QueueElement">
+<em class="property">class </em><code class="descclassname">misc.commandqueue.</code><code class="descname">QueueElement</code><span class="sig-paren">(</span><em>fn</em>, <em>comment=''</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.QueueElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper to put a function plus optional comment in Queue</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="misc.commandqueue.CommandQueue">
+<em class="property">class </em><code class="descclassname">misc.commandqueue.</code><code class="descname">CommandQueue</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command queue. saves a list of QueueElement and executes the first function
+in the Queue (fifo) in a thread. Only one can run at a time. Once it’s finished,
+the next one starts running.</p>
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.add_element">
+<code class="descname">add_element</code><span class="sig-paren">(</span><em>func</em>, <em>comment=''</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.add_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a function to end of Queue</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>func: a function that only takes agent as an argument
+comment (optional): comment that describes what this element does. Helps understanding what is happening if you print the queue.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.clear_queue">
+<code class="descname">clear_queue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.clear_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Empties the Queue. Currently running elements keep running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.print_queue">
+<code class="descname">print_queue</code><span class="sig-paren">(</span><em>max_q=100</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.print_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the Queue in a human readable fashion.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>max_q (int, optional): maximum number of elements to print. cut off if more.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.set_lock">
+<code class="descname">set_lock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.set_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prevent elements from being added to queue.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if next element in queue needs to run.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.commandqueue.CommandQueue.unset_lock">
+<code class="descname">unset_lock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.commandqueue.CommandQueue.unset_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows elements to be added to queue.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="commands-py">
+<h3>commands.py<a class="headerlink" href="#commands-py" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="misc.commands.init_scan">
+<code class="descclassname">misc.commands.</code><code class="descname">init_scan</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.init_scan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn head fully to the right to start the scan.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.commands.scan_view_step">
+<code class="descclassname">misc.commands.</code><code class="descname">scan_view_step</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.scan_view_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>move the head a bit to the left and take an image. if head already
+fully to the left, take an image and finish the scan.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.commands.scan_front">
+<code class="descclassname">misc.commands.</code><code class="descname">scan_front</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.scan_front" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes an image while looking straigt forward.
+if this is the second attempt, change the camera, then
+take the image. if this is the third, abort.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.commands.look_straight">
+<code class="descclassname">misc.commands.</code><code class="descname">look_straight</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.look_straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>makes the robot look straigt forward.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.commands.pose_ready">
+<code class="descclassname">misc.commands.</code><code class="descname">pose_ready</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.pose_ready" title="Permalink to this definition">¶</a></dt>
+<dd><p>if the robot is sitting down, stand up. give audio feedback.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.commands.go_to">
+<code class="descclassname">misc.commands.</code><code class="descname">go_to</code><span class="sig-paren">(</span><em>distance</em>, <em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.commands.go_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>make the robot turn by a specific angle and walk a specific distance.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>distance (float): distance in meter.
+angle (float): angle in radians.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="recognizer-py">
+<h3>recognizer.py<a class="headerlink" href="#recognizer-py" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="misc.recognizer.Recognizer">
+<em class="property">class </em><code class="descclassname">misc.recognizer.</code><code class="descname">Recognizer</code><span class="sig-paren">(</span><em>model_file='/home/henryk/git/nao-project/res/jarvis.umdl', keywords=['red', 'yellow', 'blue'], terminate=True</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recognizer for phrases and keywords</p>
+<p>Utilize snowboy’s hotword detection for detecting a hotword.
+Snowboy is a deep neural networkbased hotword and wake word detection toolkit.
+It simply analyzes the recording and compares it using pretrained models.
+On match it calls a previously saved callback.</p>
+<p>Afterwards the phrase is recorded and evaluated using Google Speech Recognition.
+Unfortunately there are not any details about its implementation.</p>
+<p>For using the Recognizer class create an instance of the class
+passing a path to the model_file for hotword detection and a list of keywords. If
+nothing is provided it will take the Jarvis Model and red, yellow, and blue as default values.
+You may set terminate to True for enabling termination
+after any keywords are recognized in a recorded phrase.</p>
+<p>Finally call run.</p>
+<p>recognizer = Recognizer()
+recognizer.run()</p>
+<p>You may override methods like on_hotword, on_phrase and on_keyword by subclassing Recognizer or monkey patching them.
+That way you are able to control and intervene into the recognizing process perfectly.</p>
+<p>A working internet connection is mandatory for using the class
+since Google Speech Recognition requires it. Snowboy works offline.</p>
+<p>If you want to try out the class call python recognizer.py in your shell.</p>
+<p>For more information about Snowboy visit <a class="reference external" href="https://snowboy.kitt.ai/">https://snowboy.kitt.ai/</a>.</p>
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.get_keyword_history">
+<code class="descname">get_keyword_history</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.get_keyword_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the keyword history</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>List of keywords that were detected</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.get_keywords">
+<code class="descname">get_keywords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.get_keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns keywords</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>List of keywords</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.get_terminate">
+<code class="descname">get_terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.get_terminate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns termination setting</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>True of termination is enabled</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.load_hotword_model">
+<code class="descname">load_hotword_model</code><span class="sig-paren">(</span><em>model_file</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.load_hotword_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a new hotword model file into the detector</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>model_file: Path to a .umdl file used for hotword detection</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.load_recognizer">
+<code class="descname">load_recognizer</code><span class="sig-paren">(</span><em>adjust_microphone=True</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.load_recognizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the recognizer</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>adjust_microphone: True for adjusting the recognizer using the default microphone</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.on_hotword">
+<code class="descname">on_hotword</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.on_hotword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback which gets called whenever the hotword was detected</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.on_interrupt_check">
+<code class="descname">on_interrupt_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.on_interrupt_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if termination is enabled and detection should be interrupted</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>True if termination is enabled and detection should be interrupted</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.on_keyword">
+<code class="descname">on_keyword</code><span class="sig-paren">(</span><em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.on_keyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback which gets called whenever a keywords was detected</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>keyword: Keyword that was detected</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.on_phrase">
+<code class="descname">on_phrase</code><span class="sig-paren">(</span><em>phrase</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.on_phrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback which gets called whenever a phrase was recorded</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>phrase: Phrase that was recorded</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.set_keywords">
+<code class="descname">set_keywords</code><span class="sig-paren">(</span><em>keywords</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.set_keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets keywords and transforms each keyword to lower</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>keywords: List of keywords</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.recognizer.Recognizer.set_terminate">
+<code class="descname">set_terminate</code><span class="sig-paren">(</span><em>terminate</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.recognizer.Recognizer.set_terminate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the termination setting</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>terminate: True if termination is enabled</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="robot-py">
+<h3>robot.py<a class="headerlink" href="#robot-py" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="misc.robot.Robot">
+<em class="property">class </em><code class="descclassname">misc.robot.</code><code class="descname">Robot</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot" title="Permalink to this definition">¶</a></dt>
+<dd><p>hardware abstraction.</p>
+<dl class="method">
+<dt id="misc.robot.Robot.get_head_angle">
+<code class="descname">get_head_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.get_head_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns current head orientation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.get_img">
+<code class="descname">get_img</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.get_img" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes an image with camera id in agent.think.camera</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>image: image data (numpy matrix)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.go_to">
+<code class="descname">go_to</code><span class="sig-paren">(</span><em>distance</em>, <em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.go_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>first makes Nao turn in specific direction, then waits to stabilize and walks set distance forward.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.initPose">
+<code class="descname">initPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.initPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>puts Nao into a pose where he’s able to walk.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.initProxy">
+<code class="descname">initProxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.initProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>handles connection to Nao AL proxies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>theta</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>makes nao walk and turn with set speed. currently not used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.rest">
+<code class="descname">rest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.rest" title="Permalink to this definition">¶</a></dt>
+<dd><p>puts Nao into resting position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.say">
+<code class="descname">say</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.say" title="Permalink to this definition">¶</a></dt>
+<dd><p>say phrase</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>s (string): thing to say.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.set_head_angles">
+<code class="descname">set_head_angles</code><span class="sig-paren">(</span><em>angles</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.set_head_angles" title="Permalink to this definition">¶</a></dt>
+<dd><p>moves head in specific direction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.robot.Robot.wake">
+<code class="descname">wake</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.robot.Robot.wake" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets actuator stiffness.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="states-py">
+<h3>states.py<a class="headerlink" href="#states-py" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="misc.states.StateMachine">
+<em class="property">class </em><code class="descclassname">misc.states.</code><code class="descname">StateMachine</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.StateMachine" title="Permalink to this definition">¶</a></dt>
+<dd><p>governs which state the robot is in. wait, search, done</p>
+<dl class="method">
+<dt id="misc.states.StateMachine.change_state">
+<code class="descname">change_state</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.StateMachine.change_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>change current state to different state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="misc.states.StateMachine.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.StateMachine.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>run current state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.states.state_wait_fn">
+<code class="descclassname">misc.states.</code><code class="descname">state_wait_fn</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.state_wait_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>defines logic for state ‘wait’</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.states.state_done_fn">
+<code class="descclassname">misc.states.</code><code class="descname">state_done_fn</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.state_done_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>defines logic for state ‘done’</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="misc.states.state_search_fn">
+<code class="descclassname">misc.states.</code><code class="descname">state_search_fn</code><span class="sig-paren">(</span><em>agent</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.states.state_search_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>defines logic for state ‘search’</p>
+</dd></dl>
+
+</div>
+<div class="section" id="vision-py">
+<h3>vision.py<a class="headerlink" href="#vision-py" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="misc.vision.detect_blob">
+<code class="descclassname">misc.vision.</code><code class="descname">detect_blob</code><span class="sig-paren">(</span><em>agent</em>, <em>camera</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.detect_blob" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="misc.vision.get_blob_center">
+<code class="descclassname">misc.vision.</code><code class="descname">get_blob_center</code><span class="sig-paren">(</span><em>image</em>, <em>boundaries</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.get_blob_center" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="misc.vision.get_distance">
+<code class="descclassname">misc.vision.</code><code class="descname">get_distance</code><span class="sig-paren">(</span><em>center</em>, <em>agent</em>, <em>camera</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.get_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 </div>
 </div>
 
@@ -182,10 +582,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="testpage.html" class="btn btn-neutral float-right" title="testing sphinx syntax" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="changedocs.html" class="btn btn-neutral float-right" title="How-to: edit the docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="control.html" class="btn btn-neutral" title="Manually controlling the robot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="vision.html" class="btn btn-neutral" title="Vision" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -11,10 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   changedocs
-   control
+   about
+   logic
+   speech
+   vision
    api
-   testpage
+   changedocs
 
 
 Indices and tables
