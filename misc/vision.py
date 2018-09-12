@@ -3,6 +3,15 @@ import numpy as np
 import random
 
 def detect_blob(agent, camera):
+    """ Detects dot in the given image of the color specified in agent.sense.target.
+
+        Args:
+             agent: objeOt
+             camera: Id in int
+
+        Returns: Distance to dot
+    """
+
     center = -1
     image = agent.sense.image
     color = agent.sense.target
@@ -26,6 +35,15 @@ def detect_blob(agent, camera):
 
 
 def get_blob_center(image, boundaries):
+    """ Computes the center of the dot.
+        Args:
+            image: Image from camera
+            boundaries: Boundaries for the specified color for cv2.inrange
+
+        Returns:
+              center: X/Y coordinates of center of dot
+    """
+
     img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     mask = 0
 
@@ -74,6 +92,18 @@ def get_blob_center(image, boundaries):
 
 
 def get_distance(center, agent, camera):
+    """ computes the distance to the center of the dot
+
+        Args:
+            center: Center of the dot
+            agent: Object
+            camera: Id in int
+
+        Returns:
+            distance: Distance to the center of the dot
+            anglesYaw: Angle of the head horizontal direction
+    """
+
     print "get distance"
     print center
     print "camera ", camera
