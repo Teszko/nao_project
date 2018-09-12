@@ -3,4 +3,3 @@ sdk
 files
 .idea
 *.pyc
-docs/build/*

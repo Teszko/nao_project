@@ -6,6 +6,8 @@
 Welcome to nao project's documentation!
 =======================================
 
+Our code is hosted on GitHub: https://github.com/Teszko/nao_project
+
 Contents:
 
 .. toctree::
