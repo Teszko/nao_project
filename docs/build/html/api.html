@@ -558,17 +558,43 @@ since Google Speech Recognition requires it. Snowboy works offline.</p>
 <dl class="function">
 <dt id="misc.vision.detect_blob">
 <code class="descclassname">misc.vision.</code><code class="descname">detect_blob</code><span class="sig-paren">(</span><em>agent</em>, <em>camera</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.detect_blob" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Detects dot in the given image of the color specified in agent.sense.target.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>agent: objeOt
+camera: Id in int</dd>
+</dl>
+<p>Returns: Distance to dot</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="misc.vision.get_blob_center">
 <code class="descclassname">misc.vision.</code><code class="descname">get_blob_center</code><span class="sig-paren">(</span><em>image</em>, <em>boundaries</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.get_blob_center" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Computes the center of the dot.
+Args:</p>
+<blockquote>
+<div>image: Image from camera
+boundaries: Boundaries for the specified color for cv2.inrange</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>center: X/Y coordinates of center of dot</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="misc.vision.get_distance">
 <code class="descclassname">misc.vision.</code><code class="descname">get_distance</code><span class="sig-paren">(</span><em>center</em>, <em>agent</em>, <em>camera</em><span class="sig-paren">)</span><a class="headerlink" href="#misc.vision.get_distance" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>computes the distance to the center of the dot</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>center: Center of the dot
+agent: Object
+camera: Id in int</dd>
+<dt>Returns:</dt>
+<dd>distance: Distance to the center of the dot
+anglesYaw: Angle of the head horizontal direction</dd>
+</dl>
+</dd></dl>
 
 </div>
 </div>
