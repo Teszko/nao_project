@@ -1,5 +1,7 @@
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{hyperref}
 
 \title{NAO: Issueing Positioning Orders}
 \subtitle{A proof of concept}
@@ -11,28 +13,41 @@
 \maketitle
 
 \begin{frame}
-  \frametitle{Expectations}
-  \pause
-  The robot should be able to
-  \pause
+  \frametitle{About}
   \begin{itemize}
-  \item listen for a position 
-    \pause
-  \item and walking to it
+	\item personal assistant robot
+	\item barrier-free control for disabled
+        \item autonomous operation
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Behaviour}
+  The robot should be able to
+  \begin{itemize}
+  \item listen for a command
+  \item walk to specified target
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Components}
-  \pause
   \begin{itemize}
   \item State Management and Glue Code
-    \pause
   \item Speech Recognition
-    \pause
   \item Vision Recognition
-    \pause
   \item Robot Movement
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Code and Documentation}
+  \begin{itemize}
+  \item Code on GitHub 
+  \item \url{https://github.com/Teszko/nao_project/}
+  \item documented with google style docstrings
+  \item Sphinx: \url{https://docs.henrykszeug.de}
+  \item docs/ directory in code.
   \end{itemize}
 \end{frame}
 
@@ -49,6 +64,8 @@
   \begin{itemize}
     \item Extending Computer Vision and Speech Recognition by capabilities for
       recognizing different kind of objects
+    \item Using simultaneous localization and mapping (SLAM) for spacial awareness
+    \item Integration with home appliances (IoT)
   \end{itemize}
 \end{frame}
 
