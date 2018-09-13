@@ -44,7 +44,7 @@ def get_blob_center(image, boundaries):
               center: X/Y coordinates of center of dot
     """
 
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    img = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2HSV)
     mask = 0
 
     for (lower, upper) in boundaries:
