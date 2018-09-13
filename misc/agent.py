@@ -24,11 +24,13 @@ class Sense:
         self.__recognizer = Recognizer()
         self.__recognizer.on_keyword = self.on_keyword
         self.__thread = Thread(target=self.__recognizer.run)
+        self.__ran = 0
 
     def tick(self):
         # self.agent.pad.poll()
 
-        if not self.__thread.isAlive() and self.agent.think.opmode in ['waiting']:
+        if (not self.__thread.is_alive()) and (self.agent.think.opmode in ['waiting']) and self.__ran == 0:
+            self.__ran = 1
             self.__thread.start()
 
     def on_keyword(self, keyword):

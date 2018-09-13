@@ -43,7 +43,7 @@ def scan_front(agent):
         agent.think.num_full_scans = 0
         agent.think.finished_scan = 1
         agent.think.scan_type = 0
-        agent.scanning = 0
+        agent.think.scanning = 0
         return
     agent.think.finished_scan = 0
     agent.robot.say("scan front")
@@ -51,7 +51,7 @@ def scan_front(agent):
     time.sleep(0.5)
     agent.sense.image = agent.robot.get_img()
     agent.think.num_full_scans += 1
-    agent.scanning = 0
+    agent.think.scanning = 0
 
 
 def look_straight(agent):
