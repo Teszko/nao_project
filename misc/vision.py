@@ -59,10 +59,11 @@ def get_blob_center(image, boundaries):
     area1 = 500
     area2 = 2000000
     totalDots = []
+    contour_list = []
     max_area = -100
     cnt_max = 0
 
-    contour_list = []
+
     for contour in cnts:
         approx = cv2.approxPolyDP(contour, 0.01 * cv2.arcLength(contour, True), True)
         area = cv2.contourArea(contour)
