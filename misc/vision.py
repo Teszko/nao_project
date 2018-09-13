@@ -91,6 +91,7 @@ def get_blob_center(image, boundaries):
         cv2.circle(img, center, 1, (0, 255, 0), thickness=1, lineType=8, shift=0)
     cv2.imshow("Mask", img)
     cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     #cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
     return center
