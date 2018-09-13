@@ -62,8 +62,16 @@ def get_blob_center(image, boundaries):
     max_area = -100
     cnt_max = 0
 
+    contour_list = []
+    for contour in cnts:
+        approx = cv2.approxPolyDP(contour, 0.01 * cv2.arcLength(contour, True), True)
+        area = cv2.contourArea(contour)
+        if ((len(approx) > 8) & (area > 30)):
+            contour_list.append(contour)
+
+
     # Count the total number of contours
-    for cnt in cnts:
+    for cnt in contour_list:
         if area1 < cv2.contourArea(cnt) < area2:
             print(cv2.contourArea(cnt))
             if cv2.contourArea(cnt) > max_area:
