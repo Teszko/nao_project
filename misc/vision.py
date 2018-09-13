@@ -6,7 +6,7 @@ def detect_blob(agent, camera):
     """ Detects dot in the given image of the color specified in agent.sense.target.
 
         Args:
-             agent: objeOt
+             agent: object
              camera: Id in int
 
         Returns: Distance to dot
@@ -56,7 +56,7 @@ def get_blob_center(image, boundaries):
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     # area1 and area2 are the range of contour area, change accordingly
-    area1 = 100
+    area1 = 500
     area2 = 2000000
     totalDots = []
     max_area = -100
