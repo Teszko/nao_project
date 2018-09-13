@@ -10,7 +10,7 @@ import numpy as np
 class Robot:
     """hardware abstraction."""
     def __init__(self, agent):
-        self.ip = "nao5.local"
+        self.ip = "nao2.local"
         self.port = 9559
         self.fractionMaxSpeed = 0.8
         self.motion = None
@@ -22,6 +22,7 @@ class Robot:
     def initProxy(self):
         """ handles connection to Nao AL proxies.
         """
+
         try:
             self.motion = ALProxy("ALMotion", self.ip, self.port)
         except Exception, e:
