@@ -15,10 +15,11 @@ def state_wait_fn(agent):
 
 def state_done_fn(agent):
     """ defines logic for state 'done'"""
-    agent.robot.say("done")
-    agent.sense.posestate = "rest"
-    agent.commandQueue.add_element(commands.pose_rest)
-    agent.commandQueue.set_lock()
+    if agent.sense.posestate != "rest":
+        agent.robot.say("done")
+        agent.sense.posestate = "rest"
+        agent.commandQueue.add_element(commands.pose_rest)
+        agent.commandQueue.set_lock()
 
 
 def state_search_fn(agent):
