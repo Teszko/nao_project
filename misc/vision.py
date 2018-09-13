@@ -16,10 +16,10 @@ def detect_blob(agent, camera):
     image = agent.sense.image
     color = agent.sense.target
     #color values in RGB
-    boundaries_red = [([0, 50, 50], [15, 255, 255]),
+    boundaries_red = [([0, 50, 50], [10, 255, 255]),
                       ([170, 50, 50], [180, 255, 255])]
 
-    boundaries_blue = [([85, 10, 10], [140, 255, 255]),
+    boundaries_blue = [([85, 10, 10], [140, 245, 245]),
                        ([85, 10, 10], [100, 255, 225])]
 
 
@@ -59,26 +59,17 @@ def get_blob_center(image, boundaries):
     area1 = 500
     area2 = 2000000
     totalDots = []
-    contour_list = []
     max_area = -100
     cnt_max = 0
 
-
-    for contour in cnts:
-        approx = cv2.approxPolyDP(contour, 0.01 * cv2.arcLength(contour, True), True)
-        area = cv2.contourArea(contour)
-        if ((len(approx) > 8) & (area > 30)):
-            contour_list.append(contour)
-
-
     # Count the total number of contours
-    for cnt in contour_list:
+    for cnt in cnts:
         if area1 < cv2.contourArea(cnt) < area2:
             print(cv2.contourArea(cnt))
             if cv2.contourArea(cnt) > max_area:
                 max_area = cv2.contourArea(cnt)
                 cnt_max = cnt
-            totalDots.append(cnt)
+            totalDots.append(cnt_max)
 
     # getting position of biggest blob
     if len(totalDots) > 0:
@@ -95,8 +86,13 @@ def get_blob_center(image, boundaries):
     text = "Total number of dots are: {}".format(len(totalDots))
     cv2.putText(mask, text, (50, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 255, 255), 2)
     print("Total number of dots are:{}".format(len(totalDots)))
+    if center != -1:
+        cv2.circle(img, center, radius, (0, 255, 0), thickness=1, lineType=8, shift=0)
+        cv2.circle(img, center, 1, (0, 255, 0), thickness=1, lineType=8, shift=0)
+    cv2.imshow("Mask", img)
+    cv2.waitKey(0)
 
-    cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
+    #cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
     return center
 
 
