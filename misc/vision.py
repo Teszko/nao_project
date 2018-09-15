@@ -16,11 +16,10 @@ def detect_blob(agent, camera):
     image = agent.sense.image
     color = agent.sense.target
     #color values in RGB
-    boundaries_red = [([0, 50, 50], [10, 255, 255]),
-                      ([170, 50, 50], [180, 255, 255])]
+    boundaries_red = [([0, 10, 10], [15, 255, 255]),
+                      ([170, 10, 10], [180, 255, 255])]
 
-    boundaries_blue = [([85, 10, 10], [140, 245, 245]),
-                       ([85, 10, 10], [100, 255, 225])]
+    boundaries_blue = ([75, 10, 10], [120, 255, 255])
 
 
     if color == "red":
@@ -36,6 +35,8 @@ def detect_blob(agent, camera):
 
 def get_blob_center(image, boundaries):
     """ Computes the center of the dot.
+        Metric to detect ellipses: Area of the enclosing ellipse minus area of the contour in ratio to the contour area.
+
         Args:
             image: Image from camera
             boundaries: Boundaries for the specified color for cv2.inrange
@@ -43,9 +44,13 @@ def get_blob_center(image, boundaries):
         Returns:
               center: X/Y coordinates of center of dot
     """
-
-    img = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2HSV)
     mask = 0
+    img = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2HSV)
+
+    #delete noise in the upper part of the image
+    overlay = np.zeros((120, 640, 3), np.uint8)
+    img[:overlay.shape[0], :overlay.shape[1]] = overlay
+
 
     for (lower, upper) in boundaries:
         lower_boundary = np.array(lower)
@@ -56,42 +61,42 @@ def get_blob_center(image, boundaries):
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     # area1 and area2 are the range of contour area, change accordingly
-    area1 = 500
+    area1 = 100
     area2 = 2000000
-    totalDots = []
-    max_area = -100
-    cnt_max = 0
+    diff_best = area2 + 1
+    max_diff = 4.5
+    max_ellipse_stretch = 5
+    best_ellipse = None
+    center = -1
 
-    # Count the total number of contours
+    #Count the total number of contours
     for cnt in cnts:
         if area1 < cv2.contourArea(cnt) < area2:
-            print(cv2.contourArea(cnt))
-            if cv2.contourArea(cnt) > max_area:
-                max_area = cv2.contourArea(cnt)
-                cnt_max = cnt
-            totalDots.append(cnt_max)
+            temp_ellipse = cv2.fitEllipse(cnt)
+            (x, y), (MA, ma), angle = temp_ellipse
+            # compute metrics
+            area_ellipse = (np.pi * MA * ma)
+            area_cnt = cv2.contourArea(cnt)
+            diff = ((area_ellipse - cv2.contourArea(cnt)) / area_cnt)
+            ellipse_stretch = (max(MA, ma) / min(MA, ma))
+            #check metrics
+            if diff < diff_best and diff < max_diff and ellipse_stretch < max_ellipse_stretch:
+                diff_best = diff
+                best_ellipse = temp_ellipse
 
-    # getting position of biggest blob
-    if len(totalDots) > 0:
-        (x, y), radius = cv2.minEnclosingCircle(cnt_max)
+    if best_ellipse is not None:
+        (x, y), (MA, ma), angle = best_ellipse
         center = (int(x), int(y))
-        radius = int(radius)
-        cv2.circle(img, center, radius, (0, 255, 0), 2)
-        print("center:")
-        print(center)
+        cv2.circle(img, center, 1, (0, 255, 0), thickness=1, lineType=8, shift=0)
+        cv2.ellipse(img, best_ellipse, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.imshow('ellipse', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+        print("center:", center)
     else:
         print("no dots found!")
-        return -1
 
-    text = "Total number of dots are: {}".format(len(totalDots))
-    cv2.putText(mask, text, (50, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 255, 255), 2)
-    print("Total number of dots are:{}".format(len(totalDots)))
-    if center != -1:
-        cv2.circle(img, center, radius, (0, 255, 0), thickness=1, lineType=8, shift=0)
-        cv2.circle(img, center, 1, (0, 255, 0), thickness=1, lineType=8, shift=0)
-    cv2.imshow("Mask", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
     #cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
     return center
@@ -110,9 +115,9 @@ def get_distance(center, agent, camera):
             anglesYaw: Angle of the head horizontal direction
     """
 
-    print "get distance"
-    print center
-    print "camera ", camera
+    print("get distance")
+    print(center)
+    print("camera ", camera)
     # get head_angles values
     anglesYaw = agent.robot.get_head_angle()
     # get y and y coordinates
