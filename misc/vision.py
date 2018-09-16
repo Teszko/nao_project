@@ -23,9 +23,9 @@ def detect_blob(agent, camera):
 
 
     if color == "red":
-        center = get_blob_center(image, boundaries_red)
+        center = get_blob_center(image, boundaries_red, camera)
     elif color == "blue":
-        center = get_blob_center(image, boundaries_blue)
+        center = get_blob_center(image, boundaries_blue, camera)
 
     if center != -1:
         return get_distance(center, agent, camera)
@@ -33,7 +33,7 @@ def detect_blob(agent, camera):
         return -1, None
 
 
-def get_blob_center(image, boundaries):
+def get_blob_center(image, boundaries, camera):
     """ Computes the center of the dot.
         Metric to detect ellipses: Area of the enclosing ellipse minus area of the contour in ratio to the contour area.
 
@@ -47,11 +47,12 @@ def get_blob_center(image, boundaries):
     mask = 0
     img = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2HSV)
 
-    #delete noise in the upper part of the image
-    overlay = np.zeros((120, 640, 3), np.uint8)
-    img[:overlay.shape[0], :overlay.shape[1]] = overlay
+    #delete noise in the upper part of the image for the top camera
+    if camera == 0:
+        overlay = np.zeros((120, 640, 3), np.uint8)
+        img[:overlay.shape[0], :overlay.shape[1]] = overlay
 
-
+    #get the contours of the right color
     for (lower, upper) in boundaries:
         lower_boundary = np.array(lower)
         upper_boundary = np.array(upper)
@@ -60,7 +61,7 @@ def get_blob_center(image, boundaries):
 
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-    # area1 and area2 are the range of contour area, change accordingly
+    # area1 and area2 are the range of contour area
     area1 = 100
     area2 = 2000000
     diff_best = area2 + 1
@@ -69,7 +70,7 @@ def get_blob_center(image, boundaries):
     best_ellipse = None
     center = -1
 
-    #Count the total number of contours
+    #iterate through the contours
     for cnt in cnts:
         if area1 < cv2.contourArea(cnt) < area2:
             temp_ellipse = cv2.fitEllipse(cnt)
@@ -80,9 +81,13 @@ def get_blob_center(image, boundaries):
             diff = ((area_ellipse - cv2.contourArea(cnt)) / area_cnt)
             ellipse_stretch = (max(MA, ma) / min(MA, ma))
             #check metrics
-            if diff < diff_best and diff < max_diff and ellipse_stretch < max_ellipse_stretch:
-                diff_best = diff
-                best_ellipse = temp_ellipse
+            if diff < diff_best and ellipse_stretch < max_ellipse_stretch:
+                if camera == 0 and diff < max_diff:
+                    diff_best = diff
+                    best_ellipse = temp_ellipse
+                if camera == 1:
+                    diff_best = diff
+                    best_ellipse = temp_ellipse
 
     if best_ellipse is not None:
         (x, y), (MA, ma), angle = best_ellipse
