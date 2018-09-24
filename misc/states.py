@@ -39,10 +39,12 @@ def state_search_fn(agent):
             agent.think.num_full_scans = 0
             agent.think.found = 1
             agent.think.scan_type = 1
-            #agent.robot.say("distance " + str(np.around(distance, 1)))
-            distance = min(agent.think.max_dist, distance)
-            agent.think.walk_to_target(distance, angle)
-            if distance < 0.4:
+            agent.robot.say("distance " + str(np.around(distance, 1)))
+            walk_distance = min(agent.think.max_dist, distance)
+            if (distance > agent.think.shutdown_dist) and ((distance - walk_distance) <= agent.think.shutdown_dist):
+                walk_distance = distance - agent.think.shutdown_dist
+            agent.think.walk_to_target(walk_distance, angle)
+            if distance <= agent.think.shutdown_dist:
                 agent.stateMachine.change_state(agent.stateMachine.state_done, "done")
                 # end condition
 

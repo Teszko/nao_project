@@ -76,7 +76,7 @@ class Robot:
             s (string): thing to say.
         """
         print(">", s)
-        self.tts.say(s)
+        # self.tts.say(s)
 
     def rest(self):
         """ puts Nao into resting position.

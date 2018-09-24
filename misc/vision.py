@@ -16,10 +16,8 @@ def detect_blob(agent, camera):
     image = agent.sense.image
     color = agent.sense.target
 
-
     #print("camera: " ,camera)
     center = get_blob_center(image, color, camera)
-
 
 
     if center != -1:
@@ -73,7 +71,6 @@ def get_blob_center(image, color, camera):
 
 
     _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-
 
     if camera == 0:
         # area1 and area2 are the range of contour area
@@ -151,7 +148,6 @@ def get_blob_center(image, color, camera):
             cv2.imwrite("pic_not_found" + str(random.randint(0, 1000)) + ".png", image)
 
             print("no dots found!")
-
 
     #cv2.imwrite("pic"+str(random.randint(0,1000))+".png", image)
     return center
