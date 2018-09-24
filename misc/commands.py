@@ -46,7 +46,7 @@ def scan_front(agent):
         agent.think.scanning = 0
         return
     agent.think.finished_scan = 0
-    agent.robot.say("scan front")
+    #agent.robot.say("scan front")
     agent.robot.set_head_angles([0, 0])
     time.sleep(0.5)
     agent.sense.image = agent.robot.get_img()
@@ -69,7 +69,7 @@ def pose_ready(agent):
     time.sleep(2)
     agent.robot.initPose()
     time.sleep(2)
-    agent.robot.say("ready")
+    #agent.robot.say("ready")
     # robot say ready
 
 
@@ -79,7 +79,7 @@ def pose_rest(agent):
     agent.sense.posestate = "rest"
     agent.robot.rest()
     time.sleep(5)
-    agent.robot.say("resting")
+    #agent.robot.say("resting")
     # robot say ready
 
 

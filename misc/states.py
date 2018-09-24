@@ -8,7 +8,7 @@ def state_wait_fn(agent):
     speech = agent.speechQueue.pop_element()
     if speech:
         agent.sense.target = speech
-        agent.robot.say("set opmode to searching")
+        #agent.robot.say("set opmode to searching")
         agent.think.opmode = "searching"
         agent.stateMachine.change_state(agent.stateMachine.state_search, "search")
 
@@ -16,7 +16,7 @@ def state_wait_fn(agent):
 def state_done_fn(agent):
     """ defines logic for state 'done'"""
     if agent.sense.posestate != "rest":
-        agent.robot.say("done")
+        #agent.robot.say("done")
         agent.sense.posestate = "rest"
         agent.commandQueue.add_element(commands.pose_rest)
         agent.commandQueue.set_lock()
@@ -39,7 +39,7 @@ def state_search_fn(agent):
             agent.think.num_full_scans = 0
             agent.think.found = 1
             agent.think.scan_type = 1
-            agent.robot.say("distance " + str(np.around(distance, 1)))
+            #agent.robot.say("distance " + str(np.around(distance, 1)))
             distance = min(agent.think.max_dist, distance)
             agent.think.walk_to_target(distance, angle)
             if distance < 0.4:
@@ -67,7 +67,7 @@ def state_search_fn(agent):
 
     if agent.think.scan_type == 0 and agent.think.finished_scan:
         if agent.think.num_full_scans > 2:
-            agent.robot.say("too many scans failed.")
+            #agent.robot.say("too many scans failed.")
             agent.stateMachine.change_state(agent.stateMachine.state_done, "done")
         else:
             agent.think.switch_camera()

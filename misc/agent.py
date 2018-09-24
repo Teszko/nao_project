@@ -57,7 +57,7 @@ class Think:
 
     def switch_camera(self):
         self.camera = 1 - self.camera
-        self.agent.robot.say("switch camera to " + str(self.camera))
+        #self.agent.robot.say("switch camera to " + str(self.camera))
 
     def init_scan(self):
         self.scanning = 1
