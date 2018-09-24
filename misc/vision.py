@@ -41,8 +41,8 @@ def get_blob_center(image, color, camera):
     """
 
     # color values in RGB
-    boundaries_red = [([0, 10, 10], [15, 255, 255])]#,
-                      #([170, 50, 50], [180, 255, 255])]
+    boundaries_red = ([0, 10, 10], [17, 255, 255])
+    boundaries_red_1 = ([0, 10, 10], [30, 255, 255])
 
     #boundaries_blue = ([90, 50, 50], [120, 255, 255])
     boundaries_blue = ([100, 10, 10], [180, 255, 255])
@@ -58,11 +58,14 @@ def get_blob_center(image, color, camera):
 
     #get the contours of the right color
     if color == "red":
-        for (lower, upper) in boundaries_red:
-            lower_boundary = np.array(lower)
-            upper_boundary = np.array(upper)
+        if camera == 0:
+            lower_boundary = np.array(boundaries_red[0])
+            upper_boundary = np.array(boundaries_red[1])
+        else:
+            lower_boundary = np.array(boundaries_red_1[0])
+            upper_boundary = np.array(boundaries_red_1[1])
 
-            mask = mask + cv2.inRange(img, lower_boundary, upper_boundary)
+        mask = mask + cv2.inRange(img, lower_boundary, upper_boundary)
             
     if color == "blue":
         lower_boundary = np.array(boundaries_blue[0])
