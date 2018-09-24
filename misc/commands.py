@@ -27,7 +27,7 @@ def scan_view_step(agent):
         agent.think.scanning = 0
         return
     agent.robot.set_head_angles([yaw + agent.think.head_yaw_step, pitch])
-    time.sleep(0.2)
+    time.sleep(2)
     agent.sense.image = agent.robot.get_img()
     agent.think.scanning = 0
 
